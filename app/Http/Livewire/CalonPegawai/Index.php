@@ -2,21 +2,27 @@
 
 namespace App\Http\Livewire\CalonPegawai;
 
-use App\Models\Alternatif;
 use Livewire\Component;
+use App\Models\CalonPegawai;
 
 class Index extends Component
 {
-	public function render()
-	{
-		$alternatifs = Alternatif::orderBy('kode')->get();
+    public function render()
+    {
+        // Mengambil semua data calon pegawai
+        $calonPegawais = CalonPegawai::all();
 
-		return view('livewire.calonpegawai.index', compact('alternatifs'));
-		// jangan lupa ketik "npm run build" di Windows PowerShell
-	}
+        return view('livewire.calon-pegawai.index', [
+            'calonPegawais' => $calonPegawais,
+        ]);
+    }
 
-	public function delete($id)
-	{
-		Alternatif::find($id)->delete();
-	}
+    // Fungsi untuk menghapus calon pegawai
+    public function delete($id)
+    {
+        $calonPegawai = CalonPegawai::find($id);
+        $calonPegawai->delete();
+
+        session()->flash('message', 'Data calon pegawai berhasil dihapus.');
+    }
 }
