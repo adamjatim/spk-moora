@@ -44,11 +44,11 @@ Route::middleware([
   })->name('dashboard');
 
   // route data alternatif index
-  Route::get('/calonpegawai', CalonPegawaiIndex::class)->name('calonpegawai.index');
+  Route::get('/calon-pegawai', CalonPegawaiIndex::class)->name('calon-pegawai.index');
   // route data alternatif create
-  Route::get('/alternatif/create', AlternatifCreate::class)->name('alternatif.create');
+  Route::get('/calon-pegawai/create', CalonPegawaiCreate::class)->name('calon-pegawai.create');
   // route data alternatif edit
-  Route::get('/alternatif/{id}/edit', AlternatifEdit::class)->name('alternatif.edit');
+  Route::get('/calon-pegawai/{id}/edit', CalonPegawaiEdit::class)->name('calon-pegawai.edit');
 
 
   // route data alternatif index
