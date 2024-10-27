@@ -1,38 +1,41 @@
-## Tentang Aplikasi
+## About
 
-Aplikasi ini merupakan project Sistem Pendukung Keputusan menggunakan metode Multi-Objective Optimization on the basis of Ratio Analysis. Aplikasi ini dirancang untuk memenuhi pembelajaran Peminatan Program Skripsi di [STMIK Triguna Dharma](https://www.trigunadharma.ac.id). Aplikasi ini dapat diunduh secara bebas, digunakan, dan dimodifikasi sesuai kebutuhan siapapun dengan ketentuan untuk **TIDAK MEMPERJUAL-BELIKAN** dalam bentuk apapun.
+This application is a Decision Support System project using the Multi-Objective Optimization method on the basis of Ratio Analysis, developed by STMIK Triguna Dharma, [spk-moora](https://github.com/Kaitama/spk-moora). This application is designed to fulfill the Thesis Program Interest learning at [Institut Teknologi Adhi Tama Surabaya](https://itats.ac.id/). This application can be freely downloaded, used, and modified according to anyone's needs with the provision to **NOT SELL** in any form.
 
--   [STMIK Triguna Dharma](https://www.trigunadharma.ac.id).
+## Framework
+
+technologies using in this application : 
 -   [Laravel](https://laravel.com).
--   [Tailwindcss](https://tailwindcss.com/).
+-   [jetstream](https://jetstream.laravel.com)
+-   [livewire](https://livewire.laravel.com)
+-   [Tailwindcss](https://tailwindcss.com).
 
-## Disclaimer
+## installation
 
-> Aplikasi ini tidak disertakan fitur validasi input, disain tampilan halaman yang sesuai studi kasus, ataupun fitur ubah data user. Mahasiswa dituntut untuk dapat mempelajari sendiri dan menerapkan fitur tersebut sesuai dengan kebutuhan skripsinya.
+1. Download a local server application that supports PHP version 8.1 such as [xampp](https://www.apachefriends.org/) or [Laragon](https://laragon.org/) or [WAMP Server](https://www.wampserver.com/en/download-wampserver-64bits/) for Windows operating system.
+2. Download and install [Composer](https://getcomposer.org/Composer-Setup.exe).
+3. Download and install [Node JS](https://nodejs.org/en/download/).
+4. Restart computer.
+5. Run local server **XAMPP Control Panel**, click button `RUN` for Apache and MySQL.
+6. Download and install [Visual Studio Code](https://code.visualstudio.com/Download).
+7. [Download](https://github.com/adamjatim/spk-moora/archive/refs/heads/main.zip) and extract this project on your computer's drive D, rename the extracted folder to `spk-moora`.
+8. Run the **Visual Studio Code** application, select the `File` -> `Open Folder` menu then select the `spk-moora` folder from the previous step.
+9. Select the `Terminal` -> `New Terminal` menu in the **Visual Studio Code** application then type the following commands one by one to install the required packages:
 
-## Instalasi
-
-> Tonton video berikut sebagai panduan instalasi: [Youtube Video](https://www.youtube.com/watch?v=2KX-QOIenZM). Video ini bukan dari saya dan langkah-langkahnya tidak sama persis, tetapi cukup jelas untuk dijadikan panduan tahapan instalasi yang disebutkan di bawah.
-
-1. Download aplikasi local server yang mendukung PHP versi 8.1 seperti [XAMPP](https://www.apachefriends.org/download.html) atau [WAMP Server](https://www.wampserver.com/en/download-wampserver-64bits/) untuk sistem operasi Windows.
-2. Download dan install [Composer](https://getcomposer.org/Composer-Setup.exe).
-3. Download dan install [Node JS](https://nodejs.org/en/download/).
-4. Restart komputer.
-5. Jalankan aplikasi **XAMPP Control Panel**, klik tombol `RUN` untuk Apache dan MySQL.
-6. Download dan install [Visual Studio Code](https://code.visualstudio.com/Download).
-7. Download dan ekstrak project ini pada drive D komputer, rename folder hasil ekstrak menjadi `spk-moora`.
-8. Jalankan aplikasi **Visual Studio Code**, pilih menu `File` -> `Open Folder` lalu pilih folder `spk-moora` hasil tahap sebelumnya.
-9. Pilih menu `Terminal` -> `New Terminal` pada aplikasi **Visual Studio Code** lalu ketik perintah berikut satu-persatu untuk melakukan instalasi paket-paket yang dibutuhkan:
-
-```
+```bash
+# setup laravel vendor dependencies
 composer install
+
+# setup node_module dependencies and build for tailwind css
 npm install
 npm run build
 ```
-
-10. Buka **Google Chrome**, ketikkan alamat [http://localhost/phpmyadmin](http://localhost/phpmyadmin) lalu buat database baru dengan nama `spk-moora`.
-11. Buka kembali aplikasi **Visual Studio Code**. Ubah nama (_rename_) file `.env.example` menjadi `.env` lalu edit bagian database seperti berikut:
-
+10. Open the **Google Chrome** browser, type the address [http://localhost/phpmyadmin](http://localhost/phpmyadmin) then check a database with the name `spk-moora` if still not exists you can create new one.
+11. Reopen the **Visual Studio Code** Terminal and run.
+```bash
+cp .env.example .env
+```
+and then edit the database section as follows:
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -42,28 +45,22 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-12. Ketik perintah berikut satu-persatu pada terminal **Visual Studio Code** untuk membuat app key, melakukan migrasi tabel menuju database, dan menjalankan local server:
+12. Type the following commands one by one in the **Visual Studio Code** terminal to create an app key, migrate tables to the database, and run a local server:
 
-```
+```bash
 php artisan key:generate
 php artisan migrate
+php artisan db:seed
 php artisan serve
 ```
 
-13. Ketik alamat url ([http://127.0.0.1:8000/register](http://127.0.0.1:8000/register)) pada web browser **Google Chrome** untuk melihat melakukan registrasi akun admin.
+13. Type the url address ([http://127.0.0.1:8000/register](http://127.0.0.1:8000/register)) in the **Google Chrome** web browser to see how to register an admin account.
 
 ## Author
 
-Aplikasi ini dirancang dan dibangun oleh [Khairi Ibnutama, S.Kom., M.Kom](https://kaitama.dev), dosen tetap Yayasan Bina Keluarga Sejahtera, [STMIK Triguna Dharma](https://www.trigunadharma.ac.id).
+This application was developed by [Adam Rahmat Ilahi](https://github.com/adamjatim) through the development of [Khairi Ibnutama, S.Kom., M.Kom](https://kaitama.dev), a permanent lecturer at the Bina Keluarga Sejahtera Foundation, [STMIK Triguna Dharma](https://www.trigunadharma.ac.id).
 
-## Framework
-
-Aplikasi ini dibangun menggunakan framework PHP [Laravel](https://laravel.com).
-
-## Security Vulnerabilitas
-
-Jika anda menemukan bug, error, atau kesalahan perhitungan saat penggunaan aplikasi, mohon untuk menghubungi author di alamat email [mr.ibnutama@gmail.com](mailto:mr.ibnutama@gmail.com).
 
 ## License
 
-Aplikasi ini berlisensi "open-sourced software" dibawah [MIT license](https://opensource.org/licenses/MIT).
+This application is licensed as "open-sourced software" under the [MIT license](https://opensource.org/licenses/MIT).
