@@ -5,23 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kriteria extends Model
+class CalonPegawai extends Model
 {
   use HasFactory;
 
+  // lepaskan proteksi mass assignment
   protected $guarded = [];
 
   // Tentukan kolom yang dapat diisi
   protected $fillable = [
-    'nama_kriteria',
-    'nilai_bobot',
-    'persentase',
-    'keterangan'
+    'nama',
+    'pendidikan',
+    'pengalaman',
+    'usia',
+    'kesehatan',
+    'nilai_test',
   ];
 
   /**
    * Relasi dengan model Penilaian
-   * Satu kriteria dapat digunakan dalam banyak penilaian
+   * Calon Pegawai bisa memiliki banyak penilaian
    */
   public function penilaians()
   {
