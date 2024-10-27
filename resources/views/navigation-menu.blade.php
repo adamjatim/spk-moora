@@ -27,8 +27,8 @@
 
                     {{-- menu alternatif index --}}
                     <x-jet-nav-link
-										href="{{ route('calonpegawai.index') }}"
-										:active="request()->routeIs('calonpegawai.*')">
+										href="{{ route('calon-pegawai.index') }}"
+										:active="request()->routeIs('calon-pegawai.*')">
                         {{ __('Data Calon Pegawai') }}
                     </x-jet-nav-link>
 
