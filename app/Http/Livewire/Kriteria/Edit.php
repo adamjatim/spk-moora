@@ -8,19 +8,38 @@ use Livewire\Component;
 
 class Edit extends Component
 {
-	public $kriteria;
-
-	protected $rules = [
-		'kriteria.kode'	=> 'required',
-		'kriteria.name'	=> 'required',
-		'kriteria.bobot' => 'required',
-		'kriteria.type'	=> 'nullable',
-	];
+	public $kriteria, $kode, $nama, $bobot, $persen, $keterangan;
 
 	public function mount($id)
 	{
 		$this->kriteria = Kriteria::find($id);
+
+    $this->kode = $this->kriteria->kode_kriteria;
+    $this->nama = $this->kriteria->nama_kriteria;
+    $this->bobot = $this->kriteria->nilai_bobot;
+    $this->persen = $this->kriteria->persentase;
+    $this->keterangan = $this->kriteria->keterangan;
 	}
+
+  protected $rules = [
+    'kode'        => 'required|string',
+    'nama'        => 'required',
+    'bobot'       => 'required',
+    'persen'      => 'required|integer',
+    'keterangan'  => 'required',
+  ];
+
+  protected $messages = [
+    'kode.required'       => 'Kode kriteria wajib diisi.',
+    'kode.string'         => 'Kode kriteria harus berupa string.',
+    'nama.required'       => 'Nama kriteria wajib diisi.',
+    'bobot.required'      => 'Bobot kriteria wajib diisi. (format: 0.<angka>)',
+    'persen.required'     => 'Persentase wajib diisi.',
+    'persen.integer'      => 'Persentase harus berupa angka.',
+    'keterangan.required' => 'Keterangan wajib dipilih.',
+  ];
+
+
 
 	public function render()
 	{
@@ -29,7 +48,17 @@ class Edit extends Component
 
 	public function update()
 	{
-		$this->kriteria->update();
-		return to_route('kriteria.index');
+    // Validasi input
+    $this->validate();
+
+		$this->kriteria->update([
+      'kode_kriteria' => $this->kode,
+      'nama_kriteria' => $this->nama,
+      'nilai_bobot' => $this->bobot,
+      'persentase' => $this->persen,
+      'keterangan' => $this->keterangan,
+    ]);
+
+		return redirect()->route('kriteria.index');
 	}
 }
