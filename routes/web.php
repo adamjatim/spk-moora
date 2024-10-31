@@ -4,23 +4,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\CalonPegawai\Index as CalonPegawaiIndex;
 use App\Http\Livewire\CalonPegawai\Create as CalonPegawaiCreate;
 use App\Http\Livewire\CalonPegawai\Edit as CalonPegawaiEdit;
-// use App\Http\Livewire\Kriteria\Index as KriteriaIndex;
-// use App\Http\Livewire\Kriteria\Create as KriteriaCreate;
-// use App\Http\Livewire\Kriteria\Edit as KriteriaEdit;
-// use App\Http\Livewire\Penilaian\Index as PenilaianIndex;
-// use App\Http\Livewire\Penilaian\Edit as PenilaianEdit;
-// use App\Http\Livewire\Subkriteria\Create as SubkriteriaCreate;
-// use App\Http\Livewire\Proses\Index as ProsesIndex;
 
-// use App\Http\Livewire\Alternatif\Index as AlternatifIndex;
-use App\Http\Livewire\Alternatif\Create as AlternatifCreate;
-use App\Http\Livewire\Alternatif\Edit as AlternatifEdit;
 use App\Http\Livewire\Kriteria\Index as KriteriaIndex;
 use App\Http\Livewire\Kriteria\Create as KriteriaCreate;
 use App\Http\Livewire\Kriteria\Edit as KriteriaEdit;
+
+use App\Http\Livewire\Subkriteria\Index as SubkriteriaIndex;
+use App\Http\Livewire\Subkriteria\Create as SubkriteriaCreate;
+use App\Http\Livewire\Subkriteria\Edit as SubkriteriaEdit;
+
 use App\Http\Livewire\Penilaian\Index as PenilaianIndex;
 use App\Http\Livewire\Penilaian\Edit as PenilaianEdit;
-use App\Http\Livewire\Subkriteria\Create as SubkriteriaCreate;
+
 use App\Http\Livewire\Proses\Index as ProsesIndex;
 
 
@@ -50,21 +45,15 @@ Route::middleware([
   // route data alternatif edit
   Route::get('/calon-pegawai/{id}/edit', CalonPegawaiEdit::class)->name('calon-pegawai.edit');
 
-
-  // route data alternatif index
-  // Route::get('/alternatif', AlternatifIndex::class)->name('alternatif.index');
-  // route data alternatif create
-  Route::get('/alternatif/create', AlternatifCreate::class)->name('alternatif.create');
-  // route data alternatif edit
-  Route::get('/alternatif/{id}/edit', AlternatifEdit::class)->name('alternatif.edit');
-
   // route data kriteria
   Route::get('/kriteria', KriteriaIndex::class)->name('kriteria.index');
   Route::get('/kriteria/create', KriteriaCreate::class)->name('kriteria.create');
   Route::get('/kriteria/{id}/edit', KriteriaEdit::class)->name('kriteria.edit');
 
   // route data sub kriteria
-  Route::get('/subkriteria/{kriteria}/create', SubkriteriaCreate::class)->name('subkriteria.create');
+  Route::get('/subkriteria', SubKriteriaIndex::class)->name('subkriteria.index');
+  Route::get('/subkriteria/create', SubKriteriaCreate::class)->name('subkriteria.create');
+  Route::get('/subkriteria/edit/{id}', SubKriteriaEdit::class)->name('subkriteria.edit');
 
   // route penilaian
   Route::get('/penilaian', PenilaianIndex::class)->name('penilaian.index');
