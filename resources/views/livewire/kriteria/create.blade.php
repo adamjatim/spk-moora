@@ -3,11 +3,11 @@
 		<x-slot name="title">
 			Tambah Kriteria
 		</x-slot>
-		
+
 		<x-slot name="description">
 			Tambah data kriteria penilaian beserta bobotnya.
 		</x-slot>
-		
+
 		<x-slot name="form">
 			{{-- input kode --}}
 			<div class="col-span-6 sm:col-span-4">
@@ -15,34 +15,41 @@
 				<x-jet-input id="kode" wire:model="kode" type="text" class="mt-1 block w-full" autofocus />
 				<x-jet-input-error for="kode" class="mt-2" />
 			</div>
-			{{-- input nama alternatif --}}
+			{{-- input nama kriteria --}}
 			<div class="col-span-6 sm:col-span-4">
 				<x-jet-label for="name" value="Nama Kriteria" />
 				<x-jet-input id="name" wire:model="nama" type="text" class="mt-1 block w-full" />
 				<x-jet-input-error for="name" class="mt-2" />
 			</div>
-			{{-- input lainnya dst --}}
+			{{-- input nilai bobot --}}
 			<div class="col-span-6 sm:col-span-4">
-				<x-jet-label for="bobot" value="Bobot Kriteria" />
+				<x-jet-label for="bobot" value="Nilai Bobot (WJ)" />
 				<x-jet-input id="bobot" wire:model="bobot" type="number" step="any" class="mt-1 block w-full" />
 				<x-jet-input-error for="bobot" class="mt-2" />
 			</div>
+      {{-- input persen --}}
 			<div class="col-span-6 sm:col-span-4">
-				<x-jet-label for="type" value="Jenis Kriteria" />
-				<x-select id="type" wire:model="type" type="text" class="mt-1 block w-full">
-					<option value="1" @selected($type == true)>Benefit</option>
-					<option value="0" @selected($type == false)>Cost</option>
-				</x-select>
-				<x-jet-input-error for="type" class="mt-2" />
+				<x-jet-label for="persen" value="Persentase (%)" />
+				<x-jet-input id="persen" wire:model="persen" type="number" step="any" class="mt-1 block w-full" />
+				<x-jet-input-error for="persen" class="mt-2" />
 			</div>
-			
+      {{-- input keterangan --}}
+			<div class="col-span-6 sm:col-span-4">
+				<x-jet-label for="keterangan" value="Keterangan" />
+        <x-select id="keterangan" wire:model="keterangan" type="text" class="mt-1 block w-full">
+          <option value="" selected class="text-gray-400">Keterangan</option>
+          <option value="Benefit">Benefit</option>
+					<option value="Cost">Cost</option>
+				</x-select>
+				<x-jet-input-error for="keterangan" class="mt-2" />
+			</div>
 		</x-slot>
-		
+
 		<x-slot name="actions">
 			<x-jet-action-message class="mr-3" on="saved">
 				Tersimpan.
 			</x-jet-action-message>
-			
+
 			<x-jet-button>
 				Simpan
 			</x-jet-button>
