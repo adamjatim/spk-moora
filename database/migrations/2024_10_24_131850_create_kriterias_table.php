@@ -11,9 +11,11 @@ class CreateKriteriasTable extends Migration
     {
         Schema::create('kriterias', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_kriteria');
             $table->string('nama_kriteria');
-            $table->float('bobot'); // Bobot kriteria (misalnya 0.2, 0.3, dst.)
-            $table->enum('tipe', ['maksimalkan', 'minimalkan']); // Tipe kriteria apakah dimaksimalkan atau diminimalkan
+            $table->float('nilai_bobot'); // Bobot kriteria (misalnya 0.2, 0.3, dst.)
+            $table->integer('persentase');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }

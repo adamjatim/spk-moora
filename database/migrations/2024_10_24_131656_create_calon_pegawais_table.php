@@ -12,10 +12,10 @@ class CreateCalonPegawaisTable extends Migration
     Schema::create('calon_pegawais', function (Blueprint $table) {
       $table->id();
       $table->string('nama');
-      $table->enum('pendidikan', ['SMA', 'SMK', 'D3', 'S1']);
+      $table->string('pendidikan');
       $table->integer('pengalaman'); // Tahun pengalaman kerja
       $table->integer('usia');
-      $table->enum('kesehatan', ['Kurang', 'Cukup', 'Baik']);
+      $table->integer('kesehatan');
       $table->integer('nilai_test'); // Nilai hasil tes
       $table->timestamps();
     });
