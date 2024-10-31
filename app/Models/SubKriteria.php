@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kriteria extends Model
+class SubKriteria extends Model
 {
   use HasFactory;
 
@@ -14,18 +14,18 @@ class Kriteria extends Model
   // Tentukan kolom yang dapat diisi
   protected $fillable = [
     'kode_kriteria',
-    'nama_kriteria',
-    'nilai_bobot',
-    'persentase',
-    'keterangan'
+    'parameter',
+    'parameter_min',
+    'parameter_max',
+    'nilai',
   ];
 
   /**
    * Relasi dengan model Penilaian
    * Satu kriteria dapat digunakan dalam banyak penilaian
    */
-  public function penilaians()
+  public function kriteria()
   {
-    return $this->hasMany(Penilaian::class);
+    return $this->belongsTo(Kriteria::class, 'kode_kriteria', 'kode_kriteria');
   }
 }
