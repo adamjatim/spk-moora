@@ -7,49 +7,43 @@ use Livewire\Component;
 
 class Create extends Component
 {
-	public $kode, $nama, $bobot, $persen, $keterangan;
+  public $kode_kriteria, $nama_kriteria, $nilai_bobot, $persentase, $keterangan;
 
-  // Aturan validasi untuk form
   protected $rules = [
-    'kode'        => 'required|string',
-    'nama'        => 'required',
-    'bobot'       => 'required',
-    'persen'      => 'required|integer',
-    'keterangan'  => 'required',
+    'kode_kriteria' => 'required|string',
+    'nama_kriteria' => 'required|string',
+    'nilai_bobot' => 'required|numeric',
+    'persentase' => 'required|numeric',
+    'keterangan' => 'nullable|string',
   ];
 
   protected $messages = [
-    'kode.required'       => 'Kode kriteria wajib diisi.',
-    'kode.string'         => 'Kode kriteria harus berupa string.',
-    'nama.required'       => 'Nama kriteria wajib diisi.',
-    'bobot.required'      => 'Bobot kriteria wajib diisi. (format: 0.<angka>)',
-    'persen.required'     => 'Persentase wajib diisi.',
-    'persen.integer'      => 'Persentase harus berupa angka.',
-    'keterangan.required' => 'Keterangan wajib dipilih.',
+    'kode_kriteria.required'  => 'Kode kriteria wajib diisi.',
+    'kode_kriteria.string'    => 'Kode kriteria harus berupa string.',
+    'nama_kriteria.required'  => 'Nama kriteria wajib diisi.',
+    'nilai_bobot.required'    => 'Bobot kriteria wajib diisi. (format: 0.<angka>)',
+    'persentase.required'     => 'Persentase wajib diisi.',
+    'persentase.integer'      => 'Persentase harus berupa angka.',
+    'keterangan.required'     => 'Keterangan wajib dipilih.',
   ];
 
-	public function store()
-	{
+  public function store()
+  {
     $this->validate();
 
-		Kriteria::create([
-			'kode_kriteria'	=> $this->kode,
-			'nama_kriteria'	=> $this->nama,
-			'nilai_bobot'	  => $this->bobot,
-			'persentase'	  => $this->persen,
-      'keterangan'	  => $this->keterangan
-		]);
+    Kriteria::create([
+      'kode_kriteria' => $this->kode_kriteria,
+      'nama_kriteria' => $this->nama_kriteria,
+      'nilai_bobot' => $this->nilai_bobot,
+      'persentase' => $this->persentase,
+      'keterangan' => $this->keterangan,
+    ]);
 
-		$this->reset();
-		$this->emit('saved');
-
-    session()->flash('message', 'Data kriteria berhasil ditambahkan.');
-
-    return redirect()->route('kriteria.index');
-	}
+    return redirect()->route('kriteria.index')->with('message', 'Kriteria berhasil ditambahkan.');
+  }
 
   public function render()
-	{
-		return view('livewire.kriteria.create');
-	}
+  {
+    return view('livewire.kriteria.create');
+  }
 }
