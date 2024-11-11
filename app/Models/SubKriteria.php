@@ -15,9 +15,11 @@ class SubKriteria extends Model
   protected $fillable = [
     'kode_kriteria',
     'parameter',
+    'parameter_nominal',
     'parameter_min',
     'parameter_max',
     'nilai',
+    'tipe_penilaian' // Tambahkan tipe_penilaian
   ];
 
   /**
