@@ -48,8 +48,9 @@
                 <select id="parameter_type" wire:model="parameter_type"
                     class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
                     <option value="">Pilih Jenis Parameter</option>
-                    <option value="string">String</option>
-                    <option value="nominal">Nominal/Range</option>
+                    <option value="string">String Tunggal</option>
+                    <option value="nominal">Nominal Tunggal</option>
+                    <option value="range">Nominal Range</option>
                 </select>
                 <x-jet-input-error for="parameter_type" class="mt-2" />
             </div>
@@ -62,7 +63,14 @@
                         class="mt-1 block w-full" placeholder="Contoh: sma, smk, d3, s1" />
                     <x-jet-input-error for="parameter_values" class="mt-2" />
                 </div>
-            @elseif($parameter_type === 'nominal')
+            @elseif ($parameter_type === 'nominal')
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="parameter_nominal" value="Parameter (Pisahkan dengan koma)" />
+                    <x-jet-input id="parameter_nominal" wire:model="parameter_nominal" type="text"
+                        class="mt-1 block w-full" placeholder="Contoh: 1, 2, 3, 4" />
+                    <x-jet-input-error for="parameter_nominal" class="mt-2" />
+                </div>
+            @elseif($parameter_type === 'range')
                 <div class="col-span-6 sm:col-span-4">
                     <x-jet-label for="parameter_min" value="Parameter Minimum" />
                     <x-jet-input id="parameter_min" wire:model="parameter_min" type="text"

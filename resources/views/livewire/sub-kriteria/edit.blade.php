@@ -48,8 +48,9 @@
                 <select id="parameter_type" wire:model="parameter_type"
                     class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
                     <option value="">Pilih Jenis Parameter</option>
-                    <option value="string">String</option>
-                    <option value="nominal">Nominal/Range</option>
+                    <option value="string">String Tunggal</option>
+                    <option value="nominal">Nominal Tunggal</option>
+                    <option value="range">Nominal Range</option>
                 </select>
                 <x-jet-input-error for="parameter_type" class="mt-2" />
             </div>
@@ -57,12 +58,19 @@
             <!-- Input Parameter Berdasarkan Pilihan -->
             @if ($parameter_type === 'string')
                 <div class="col-span-6 sm:col-span-4">
-                    <x-jet-label for="parameter_values" value="Parameter" />
+                    <x-jet-label for="parameter_values" value="Parameter (Pisahkan dengan koma)" />
                     <x-jet-input id="parameter_values" wire:model="parameter_values" type="text"
-                        class="mt-1 block w-full" placeholder="Parameter" />
+                        class="mt-1 block w-full" placeholder="Contoh: sma, smk, d3, s1" />
                     <x-jet-input-error for="parameter_values" class="mt-2" />
                 </div>
-            @elseif($parameter_type === 'nominal')
+            @elseif ($parameter_type === 'nominal')
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="parameter_nominal" value="Parameter (Pisahkan dengan koma)" />
+                    <x-jet-input id="parameter_nominal" wire:model="parameter_nominal" type="text"
+                        class="mt-1 block w-full" placeholder="Contoh: 1, 2, 3, 4" />
+                    <x-jet-input-error for="parameter_nominal" class="mt-2" />
+                </div>
+            @elseif($parameter_type === 'range')
                 <div class="col-span-6 sm:col-span-4">
                     <x-jet-label for="parameter_min" value="Parameter Minimum" />
                     <x-jet-input id="parameter_min" wire:model="parameter_min" type="text"
@@ -97,54 +105,3 @@
         </x-slot>
     </x-jet-form-section>
 </div>
-
-
-
-{{-- <div class="mt-6 mx-6">
-	<x-jet-form-section submit="update">
-		<x-slot name="title">
-			Ubah Kriteria
-		</x-slot>
-
-		<x-slot name="description">
-			Ubah data kriteria penilaian beserta bobotnya.
-		</x-slot>
-
-		<x-slot name="form">
-			<div class="col-span-6 sm:col-span-4">
-				<x-jet-label for="kode" value="Kode Kriteria" />
-				<x-jet-input id="kode" wire:model="sub-kriteria.kode" type="text" class="mt-1 block w-full" autofocus />
-				<x-jet-input-error for="kode" class="mt-2" />
-			</div>
-			<div class="col-span-6 sm:col-span-4">
-				<x-jet-label for="name" value="Nama Kriteria" />
-				<x-jet-input id="name" wire:model="sub-kriteria.name" type="text" class="mt-1 block w-full" />
-				<x-jet-input-error for="name" class="mt-2" />
-			</div>
-			<div class="col-span-6 sm:col-span-4">
-				<x-jet-label for="bobot" value="Bobot Kriteria" />
-				<x-jet-input id="bobot" wire:model="sub-kriteria.bobot" type="number" step="any" class="mt-1 block w-full" />
-				<x-jet-input-error for="bobot" class="mt-2" />
-			</div>
-			<div class="col-span-6 sm:col-span-4">
-				<x-jet-label for="type" value="Jenis Kriteria" />
-				<x-select id="type" wire:model="sub-kriteria.type" type="text" class="mt-1 block w-full">
-					<option value="1">Benefit</option>
-					<option value="0">Cost</option>
-				</x-select>
-				<x-jet-input-error for="type" class="mt-2" />
-			</div>
-
-		</x-slot>
-
-		<x-slot name="actions">
-			<x-jet-action-message class="mr-3" on="saved">
-				Tersimpan.
-			</x-jet-action-message>
-
-			<x-jet-button>
-				Simpan
-			</x-jet-button>
-		</x-slot>
-	</x-jet-form-section>
-</div> --}}

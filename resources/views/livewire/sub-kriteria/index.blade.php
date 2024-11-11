@@ -46,37 +46,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- <tr>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
-                                    1
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
-                                    C1
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
-                                    Pendidikan
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
-                                  <ol class="">SMA / SMK</ol>
-                                  <ol class="">D3</ol>
-                                  <ol class="">S1</ol>
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
-                                    <ol class="w-full">1</ol>
-                                    <ol class="w-full">2</ol>
-                                    <ol class="w-full">3</ol>
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <div class="flex items-center justify-center gap-4">
-                                        <a
-                                        href="{{ route('subkriteria.edit', $subKrit->id) }}"
-                                            class="uppercase font-medium text-xs text-gray-700">Edit</a>
-                                        <x-jet-button
-                                        wire:click="delete({{ $subKrit->id }})"
-                                        >Hapus</x-jet-button>
-                                    </div>
-                                </td>
-                            </tr> --}}
                             @forelse ($subKriteria as $index => $subKrit)
                                 <tr>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
@@ -92,9 +61,11 @@
                                         {{ $subKrit->parameter }}
                                     </td> --}}
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
-                                        @if ($subKrit->parameter_min == 0 && $subKrit->parameter_max == 0)
+                                        @if ($subKrit->parameter_min == 0 && $subKrit->parameter_max == 0 && $subKrit->parameter_nominal == 0)
                                             {{ $subKrit->parameter }}
-                                        @else
+                                        @elseif ($subKrit->parameter == 0 && $subKrit->parameter_max == 0 && $subKrit->parameter_min == 0)
+                                            {{ $subKrit->parameter_nominal }}
+                                        @elseif ($subKrit->parameter == 0 && $subKrit->parameter_nominal == 0)
                                             {{ $subKrit->parameter_min }} - {{ $subKrit->parameter_max }}
                                         @endif
                                     </td>
