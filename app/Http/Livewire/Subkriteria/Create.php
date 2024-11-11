@@ -8,15 +8,19 @@ use Livewire\Component;
 
 class Create extends Component
 {
-  public $kode_kriteria;
-  public $nama_kriteria;
-  public $parameter_type;
-  public $parameter_min;
-  public $parameter_max;
-  public $parameter_values;
-  public $nilai;
+  public $kode_kriteria, $nama_kriteria, $parameter_type, $parameter_nominal, $parameter_min, $parameter_max, $parameter_values, $nilai;
 
   public $kriteriaList = []; // Menyimpan data kriteria untuk dropdown
+
+  protected $rules = [
+    'kode_kriteria' => 'required',
+    'parameter_type' => 'required',
+    'parameter_values' => 'nullable|string',
+    'parameter_nominal' => 'nullable|string',
+    'parameter_min' => 'nullable|numeric',
+    'parameter_max' => 'nullable|numeric',
+    'nilai' => 'nullable|string',
+  ];
 
   public function mount()
   {
@@ -35,19 +39,38 @@ class Create extends Component
   {
     if ($this->parameter_type == 'string') {
       // Pisahkan parameter values dan nilai menggunakan koma
-      $parameters = explode(',', $this->parameter_values);
+      $parameters = array_map('trim', explode(',', $this->parameter_values));
       $nilaiArray = array_map('trim', explode(',', $this->nilai));
 
       foreach ($parameters as $index => $param) {
         SubKriteria::create([
           'kode_kriteria' => $this->kode_kriteria,
+          'tipe_penilaian' => $this->parameter_type, // Masukkan nilai parameter_type ke tipe_penilaian
           'parameter' => trim($param),
-          'parameter_min' => 0,
-          'parameter_max' => 0,
+          'parameter_nominal' => null,
+          'parameter_min' => null,
+          'parameter_max' => null,
           'nilai' => $nilaiArray[$index] ?? null, // Menggunakan nilai yang sesuai
         ]);
       }
     } elseif ($this->parameter_type == 'nominal') {
+      // Pisahkan parameter values dan nilai menggunakan koma
+      $parameters = array_map('trim', explode(',', $this->parameter_nominal));
+      $nilaiArray = array_map('trim', explode(',', $this->nilai));
+
+      // Iterasi melalui setiap elemen dalam array dan buat entri baru untuk setiap set
+      foreach ($parameters as $index => $param) {
+        SubKriteria::create([
+          'kode_kriteria' => $this->kode_kriteria,
+          'tipe_penilaian' => $this->parameter_type, // Masukkan nilai parameter_type ke tipe_penilaian
+          'parameter' => null,
+          'parameter_nominal' => trim($param),
+          'parameter_min' => null,
+          'parameter_max' => null,
+          'nilai' => $nilaiArray[$index] ?? null, // Menggunakan nilai yang sesuai
+        ]);
+      }
+    } elseif ($this->parameter_type == 'range') {
       // Pisahkan parameter_min, parameter_max, dan nilai menggunakan koma
       $parameterMinArray = array_map('trim', explode(',', $this->parameter_min));
       $parameterMaxArray = array_map('trim', explode(',', $this->parameter_max));
@@ -57,7 +80,9 @@ class Create extends Component
       foreach ($parameterMinArray as $index => $paramMin) {
         SubKriteria::create([
           'kode_kriteria' => $this->kode_kriteria,
-          'parameter' => 0,
+          'tipe_penilaian' => $this->parameter_type, // Masukkan nilai parameter_type ke tipe_penilaian
+          'parameter' => null,
+          'parameter_nominal' => null,
           'parameter_min' => $paramMin,
           'parameter_max' => $parameterMaxArray[$index] ?? $paramMin + 1, // Menggunakan parameter_max jika ada, jika tidak, default
           'nilai' => $nilaiArray[$index] ?? null, // Menggunakan nilai yang sesuai
@@ -65,9 +90,8 @@ class Create extends Component
       }
     }
 
-    session()->flash('message', 'Sub Kriteria berhasil ditambahkan');
     $this->reset(); // Mengosongkan input
-    return redirect()->route('subkriteria.index');
+    return redirect()->route('subkriteria.index')->with('message', 'Sub Kriteria berhasil ditambahkan');
   }
 
   public function render()
