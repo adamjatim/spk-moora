@@ -22,29 +22,29 @@
             </div>
             {{-- input kode --}}
             <div class="col-span-6 sm:col-span-4">
-                <x-jet-label for="kode" value="Kode Kriteria" />
-                <x-jet-input id="kode" wire:model="kode" type="text" class="mt-1 block w-full" autofocus />
-                <x-jet-input-error for="kode" class="mt-2" />
+                <x-jet-label for="kode_kriteria" value="Kode Kriteria" />
+                <x-jet-input id="kode_kriteria" wire:model="kode_kriteria" type="text" class="mt-1 block w-full" autofocus />
+                <x-jet-input-error for="kode_kriteria" class="mt-2" />
             </div>
             {{-- input nama kriteria --}}
             <div class="col-span-6 sm:col-span-4">
-                <x-jet-label for="name" value="Nama Kriteria" />
-                <x-jet-input id="name" wire:model="nama" type="text" class="mt-1 block w-full" />
-                <x-jet-input-error for="name" class="mt-2" />
+                <x-jet-label for="nama_kriteria" value="Nama Kriteria" />
+                <x-jet-input id="nama_kriteria" wire:model="nama_kriteria" type="text" class="mt-1 block w-full" />
+                <x-jet-input-error for="nama_kriteria" class="mt-2" />
             </div>
             {{-- input nilai bobot --}}
             <div class="col-span-6 sm:col-span-4">
-                <x-jet-label for="bobot" value="Nilai Bobot (WJ)" />
-                <x-jet-input id="bobot" wire:model="bobot" type="number" step="any"
+                <x-jet-label for="nilai_bobot" value="Nilai Bobot (WJ)" />
+                <x-jet-input id="nilai_bobot" wire:model="nilai_bobot" type="number" step="any"
                     class="mt-1 block w-full" />
-                <x-jet-input-error for="bobot" class="mt-2" />
+                <x-jet-input-error for="nilai_bobot" class="mt-2" />
             </div>
             {{-- input persen --}}
             <div class="col-span-6 sm:col-span-4">
-                <x-jet-label for="persen" value="Persentase (%)" />
-                <x-jet-input id="persen" wire:model="persen" type="number" step="any"
+                <x-jet-label for="persentase" value="Persentase (%)" />
+                <x-jet-input id="persentase" wire:model="persentase" type="number" step="any"
                     class="mt-1 block w-full" />
-                <x-jet-input-error for="persen" class="mt-2" />
+                <x-jet-input-error for="persentase" class="mt-2" />
             </div>
             {{-- input keterangan --}}
             <div class="col-span-6 sm:col-span-4">
