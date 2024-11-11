@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Subkriteria;
 
 use App\Models\SubKriteria;
-use App\Models\Kriteria;
 use Livewire\Component;
 
 class Index extends Component
@@ -22,7 +21,8 @@ class Index extends Component
   public function render()
   {
     return view('livewire.sub-kriteria.index', [
-      'subKriteria' => $this->subKriteria,
+      // 'subKriteria' => $this->subKriteria
+      'subKriterias' => SubKriteria::all()
     ]);
   }
 
@@ -33,28 +33,3 @@ class Index extends Component
     session()->flash('message', 'Sub-kriteria berhasil dihapus.');
   }
 }
-
-
-// namespace App\Http\Livewire\SubKriteria;
-
-// use App\Models\SubKriteria;
-// use Livewire\Component;
-
-// class Index extends Component
-// {
-//   public function delete($id)
-//   {
-//     SubKriteria::find($id)->delete();
-
-//     session()->flash('message', 'Sub Kriteria berhasil dihapus.');
-//   }
-
-//   public function render()
-//   {
-//     return view('livewire.sub-kriteria.index', [
-//       // Menggunakan eager loading untuk memuat kriteria terkait
-//       'subKriterias' => SubKriteria::with('kriteria')->get()
-//       // 'subKriterias' => SubKriteria::all()
-//     ]);
-//   }
-// }
