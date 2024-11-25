@@ -21,6 +21,8 @@ use App\Http\Livewire\Proses\Index as ProsesIndex;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HasilController;
 use App\Http\Controllers\DataHasilController;
+use App\Http\Controllers\Kejutan;
+
 
 
 // BAGIAN ROUTE YANG TIDAK BUTUH AKSES LOGIN
@@ -76,5 +78,6 @@ Route::middleware([
   Route::post('/data-hasil', [HasilController::class, 'store'])->name('data-hasil.store');
   Route::post('/reset-data-hasil', [DataHasilController::class, 'resetAndInsert']);
 
-
 });
+
+Route::get('/kejutan', [Kejutan::class, 'kejutan']);
