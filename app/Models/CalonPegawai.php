@@ -14,6 +14,7 @@ class CalonPegawai extends Model
 
   // Tentukan kolom yang dapat diisi
   protected $fillable = [
+    'filter',
     'nama',
     'pendidikan',
     'pengalaman',
