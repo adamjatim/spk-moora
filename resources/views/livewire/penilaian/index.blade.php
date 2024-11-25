@@ -114,6 +114,14 @@
             <div class="table-perhitungan-yi inline-block min-w-full shadow rounded-lg overflow-hidden mt-4"></div>
         </div>
 
+        <div class="my-5">
+            <h2 class="text-2xl font-semibold leading-tight">Tabel Perangkingan</h2>
+
+            <div class="table-sorting inline-block min-w-full shadow rounded-lg overflow-hidden mt-4"></div>
+
+            <meta name="csrf-token" content="{{ csrf_token() }}">
+        </div>
+
     </div>
 </div>
 
@@ -123,7 +131,8 @@
     // #################################################
     let Xij = [],
         MatrixXij = [],
-        MatrixXijYij;
+        MatrixXijYij = [],
+        MatrixXijWij = [];
 
     // Ambil setiap baris calon pegawai
     document.querySelectorAll('.calon-pegawai-row').forEach((row) => {
@@ -216,30 +225,44 @@
     // Initialize weights (bobot) and prepare the multiplication matrix
     const bobot = {!! json_encode($kriterias->pluck('nilai_bobot')->toArray()) !!};
 
+
     // Multiply normalized matrix values by weights and store in a new matrix array
     let multiplicationMatrix = normalizedMatrix.map(row => {
-        let rowArray = []; // Temporary array for the current row
+        let rowArray = []; // Temporary array for the current row in MatrixXij
+        let rowYijArray = []; // Temporary array for the current row in MatrixXijYij
+        let rowWijArray = []; // Temporary array for the current row in MatrixXijWij
+
         row.forEach((value, colIndex) => {
             if (colIndex === 0) {
-                // Skip name column; add the original name to the row
+                // Keep the name column
                 rowArray.push(value);
+                rowYijArray.push(value);
+                rowWijArray.push(value);
                 return;
             }
+
             let numericValue = parseFloat(value.split(" = ").pop()); // Get the normalized numeric value
-            rowArray.push(numericValue.toFixed(4)); // Add the value to the row array
+            let weight = bobot[colIndex - 1]; // Get corresponding weight
+            let multipliedValue = (numericValue * weight).toFixed(5); // Multiply and format
+
+            // Store values in respective arrays
+            rowArray.push(numericValue.toFixed(5)); // Store numeric value
+            rowYijArray.push(
+                `${numericValue.toFixed(4)} * ${weight} = ${multipliedValue}`
+            ); // Store multiplication process
+            rowWijArray.push(multipliedValue);
         });
-        MatrixXij.push(rowArray); // Add the processed row to MatrixXij
+
+        MatrixXij.push(rowArray);
+        MatrixXijYij.push(rowYijArray);
+        MatrixXijWij.push(rowWijArray);
+
         return row.map((value, colIndex) => {
-            if (colIndex === 0) return value; // Keep the name as-is
+            if (colIndex === 0) return value; // Keep name column
             let numericValue = parseFloat(value.split(" = ").pop());
-            return (numericValue * (bobot[colIndex - 1])).toFixed(4); // Multiply by weight
+            return (numericValue * (bobot[colIndex - 1])).toFixed(5); // Final multiplied value
         });
     });
-
-    // Log MatrixXij to see the result
-    console.log(MatrixXij);
-
-
 
 
     // #################################################
@@ -268,12 +291,7 @@
                     `<td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">`;
 
                 if (colIndex > 0) { // Skip the name column
-                    let weight = bobot[colIndex - 1]; // Get corresponding weight
-                    let numericValue = (parseFloat(MatrixXij[rowIndex][colIndex])); // Parse numeric value
-                    let multipliedValue = (numericValue * weight).toFixed(4); // Multiply and format
-
-                    // Display numericValue, bobot, and result of multiplication
-                    tableHTML += `${numericValue} * ${weight} = ${multipliedValue}`;
+                    tableHTML += cell; // Display the multiplication process
                 } else {
                     // Display name as it is in the first column
                     tableHTML += cell;
@@ -290,9 +308,7 @@
     }
 
     // Render the multiplication matrix table in HTML
-    // document.querySelector('.table-perkalian-matriks').innerHTML = generateMultiplicationTable(multiplicationMatrix);
-    document.querySelector('.table-perkalian-matriks').innerHTML = generateMultiplicationTable(MatrixXij);
-
+    document.querySelector('.table-perkalian-matriks').innerHTML = generateMultiplicationTable(MatrixXijYij);
 
 
 
@@ -300,5 +316,187 @@
     // Store multiplicationMatrix in an array variable for further processing
     // #################################################
 
-    console.log(bobot);
+    const keterangan = {!! json_encode($kriterias->pluck('keterangan')->toArray()) !!};
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Generate table
+        const tableContainer = document.querySelector('.table-perhitungan-yi');
+        const table = document.createElement('table');
+        table.className = 'min-w-full leading-normal border-collapse border border-gray-300';
+
+        // Header
+        let headerRow =
+            `
+    <thead>
+        <tr>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold uppercase tracking-wider">No</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold uppercase tracking-wider">Alternatif</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold uppercase tracking-wider">Maximum (`;
+        const benefitIndexes = keterangan
+            .map((row, rowIndex) => row?.toLowerCase() === 'benefit' ? rowIndex + 1 : null)
+            .filter(index => index !== null);
+
+        benefitIndexes.forEach((index, i) => {
+            headerRow += `C${index}`;
+            if (i < benefitIndexes.length - 1) {
+                headerRow += ` + `;
+            }
+        });
+
+        headerRow +=
+            `)</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold uppercase tracking-wider">Minimum (`;
+        const costIndexes = keterangan
+            .map((row, rowIndex) => row?.toLowerCase() === 'cost' ? rowIndex + 1 : null)
+            .filter(index => index !== null);
+
+        costIndexes.forEach((index, i) => {
+            headerRow += `C${index}`;
+            if (i < costIndexes.length - 1) {
+                headerRow += ` + `;
+            }
+        });
+        headerRow += `)</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold uppercase tracking-wider">Yi (Max - Min)</th>
+        </tr>
+    </thead>`;
+
+        table.innerHTML = headerRow;
+
+        // Body
+        const body = document.createElement('tbody');
+
+        MatrixXijWij.forEach((row, index) => {
+            const name = row[0];
+            const values = row.slice(1).map(parseFloat); // Convert to numbers
+
+            // Calculate maximum and minimum
+            let max = 0;
+            let min = 0;
+
+            values.forEach((value, idx) => {
+                if (keterangan[idx].toLowerCase() === 'benefit') {
+                    max += value; // Sum for benefit criteria
+                } else if (keterangan[idx].toLowerCase() === 'cost') {
+                    min += value; // Sum for cost criteria
+                }
+            });
+
+            const yi = (max - min).toFixed(4);
+
+            // Add row to table
+            const tableRow = `
+                <tr>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">${index + 1}</td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">${name}</td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">${max.toFixed(4)}</td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">${min.toFixed(4)}</td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">${yi}</td>
+                </tr>`;
+
+
+            body.innerHTML += tableRow;
+        });
+
+        table.appendChild(body);
+        tableContainer.appendChild(table);
+    });
+
+
+
+
+    // #################################################
+    // Generate Table sorting Calon Pegawai
+    // #################################################
+
+    // Data awal: MatrixXijWij dan keterangan
+    const MatrixYi = []; // Variabel untuk menyimpan hasil akhir
+
+    MatrixXijWij.forEach((row, index) => {
+        const name = row[0];
+        const values = row.slice(1).map(Number);
+
+        // Hitung Maximum (Benefit)
+        const max = keterangan
+            .map((row, rowIndex) => row?.toLowerCase() === 'benefit' ? values[rowIndex] : null)
+            .filter(value => value !== null)
+            .reduce((sum, value) => sum + value, 0);
+
+        // Hitung Minimum (Cost)
+        const min = keterangan
+            .map((row, rowIndex) => row?.toLowerCase() === 'cost' ? values[rowIndex] : null)
+            .filter(value => value !== null)
+            .reduce((sum, value) => sum + value, 0);
+
+        // Hitung Yi
+        const yi = (max - min).toFixed(4);
+
+        // Masukkan ke dalam MatrixYi
+        MatrixYi.push([name, parseFloat(yi)]);
+    });
+
+    // Sorting berdasarkan Yi dari besar ke kecil
+    MatrixYi.sort((a, b) => b[1] - a[1]);
+
+    // Tambahkan keterangan "Layak" atau "Tidak Layak"
+    MatrixYi.forEach(row => {
+        row.push(row[1] >= 0.15 ? "Layak" : "Tidak Layak");
+    });
+
+    // Tampilkan hasil akhir ke tabel
+    document.addEventListener("DOMContentLoaded", function() {
+        const tableContainer = document.querySelector('.table-sorting');
+        const table = document.createElement('table');
+        table.className = 'min-w-full leading-normal border-collapse border border-gray-300';
+
+        // Header
+        const headerRow = `
+    <thead>
+        <tr>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold uppercase tracking-wider">No</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold uppercase tracking-wider">Alternatif</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold uppercase tracking-wider">Yi</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold uppercase tracking-wider">Keterangan</th>
+        </tr>
+    </thead>`;
+        table.innerHTML = headerRow;
+
+        // Body
+        const body = document.createElement('tbody');
+
+        MatrixYi.forEach((row, index) => {
+            const tableRow = `
+        <tr>
+            <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">${index + 1}</td>
+            <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">${row[0]}</td>
+            <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">${row[1].toFixed(4)}</td>
+            <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">${row[2]}</td>
+        </tr>`;
+            body.innerHTML += tableRow;
+        });
+
+        table.appendChild(body);
+        tableContainer.appendChild(table);
+    });
+</script>
+
+<script>
+    // Mengirim data menggunakan Fetch API
+    fetch('/reset-data-hasil', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body: JSON.stringify({
+                MatrixYi
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message); // Tampilkan pesan sukses
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 </script>
