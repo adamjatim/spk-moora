@@ -26,9 +26,11 @@
                     </x-jet-nav-link> --}}
 
                     {{-- menu alternatif index --}}
-                    <x-jet-nav-link href="{{ route('calon-pegawai.index') }}" :active="request()->routeIs('calon-pegawai.*')">
-                        {{ __('Data Calon Pegawai') }}
-                    </x-jet-nav-link>
+                    @if(auth()->user()->role !== 'owner')
+                        <x-jet-nav-link href="{{ route('calon-pegawai.index') }}" :active="request()->routeIs('calon-pegawai.*')">
+                            {{ __('Data Calon Pegawai') }}
+                        </x-jet-nav-link>
+                    @endif
 
                     {{-- menu kriteria --}}
                     {{-- <x-jet-nav-link href="{{ route('kriteria.index') }}" :active="request()->routeIs('kriteria.*')">
@@ -36,39 +38,43 @@
                     </x-jet-nav-link> --}}
 
                     {{-- menu Data Kriteria dengan dropdown --}}
-                    <div @mouseenter="open = true" @mouseleave="open = false" class="relative flex">
-                        <x-jet-nav-link
-                        {{-- href="{{ route('kriteria.index') }}" --}}
-                        :active="request()->routeIs('kriteria.*') || request()->routeIs('subkriteria.*')" class="h-full">
-                            {{ __('Data Kriteria') }}
-                            <svg class="ml-[0.5rem]" xmlns="http://www.w3.org/2000/svg" width="0.8rem" height="0.8rem" viewBox="0 0 1024 1024"><path fill="currentColor" d="M8.2 275.4c0-8.6 3.4-17.401 10-24.001c13.2-13.2 34.8-13.2 48 0l451.8 451.8l445.2-445.2c13.2-13.2 34.8-13.2 48 0s13.2 34.8 0 48L542 775.399c-13.2 13.2-34.8 13.2-48 0l-475.8-475.8c-6.8-6.8-10-15.4-10-24.199"/></svg>
-                        </x-jet-nav-link>
+                    @if(auth()->user()->role !== 'owner')
+                        <div @mouseenter="open = true" @mouseleave="open = false" class="relative flex">
+                            <x-jet-nav-link
+                            {{-- href="{{ route('kriteria.index') }}" --}}
+                            :active="request()->routeIs('kriteria.*') || request()->routeIs('subkriteria.*')" class="h-full">
+                                {{ __('Data Kriteria') }}
+                                <svg class="ml-[0.5rem]" xmlns="http://www.w3.org/2000/svg" width="0.8rem" height="0.8rem" viewBox="0 0 1024 1024"><path fill="currentColor" d="M8.2 275.4c0-8.6 3.4-17.401 10-24.001c13.2-13.2 34.8-13.2 48 0l451.8 451.8l445.2-445.2c13.2-13.2 34.8-13.2 48 0s13.2 34.8 0 48L542 775.399c-13.2 13.2-34.8 13.2-48 0l-475.8-475.8c-6.8-6.8-10-15.4-10-24.199"/></svg>
+                            </x-jet-nav-link>
 
-                        <!-- Dropdown Menu untuk Kriteria -->
-                        <div x-show="open" x-transition
-                            class="absolute z-10 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none mt-[3.5rem]"
-                            style="display: none;">
-                            <div class="py-1" role="menu" aria-orientation="vertical"
-                                aria-labelledby="options-menu">
-                                <a href="{{ route('kriteria.index') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                    role="menuitem">
-                                    {{ __('Data Kriteria') }}
-                                </a>
-                                <a
-                                href="{{ route('subkriteria.index') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                    role="menuitem">
-                                    {{ __('Data Sub Kriteria') }}
-                                </a>
+                            <!-- Dropdown Menu untuk Kriteria -->
+                            <div x-show="open" x-transition
+                                class="absolute z-10 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none mt-[3.5rem]"
+                                style="display: none;">
+                                <div class="py-1" role="menu" aria-orientation="vertical"
+                                    aria-labelledby="options-menu">
+                                    <a href="{{ route('kriteria.index') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                        role="menuitem">
+                                        {{ __('Data Kriteria') }}
+                                    </a>
+                                    <a
+                                    href="{{ route('subkriteria.index') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                        role="menuitem">
+                                        {{ __('Data Sub Kriteria') }}
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
 
                     {{-- menu penilaian --}}
-                    <x-jet-nav-link href="{{ route('penilaian.index') }}" :active="request()->routeIs('penilaian.*')">
-                        {{ __('Penilaian') }}
-                    </x-jet-nav-link>
+                    @if(auth()->user()->role !== 'owner')
+                        <x-jet-nav-link href="{{ route('penilaian.index') }}" :active="request()->routeIs('penilaian.*')">
+                            {{ __('Penilaian') }}
+                        </x-jet-nav-link>
+                    @endif
 
                 </div>
             </div>
