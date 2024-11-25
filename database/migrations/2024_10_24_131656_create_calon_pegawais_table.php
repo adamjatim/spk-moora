@@ -11,6 +11,7 @@ class CreateCalonPegawaisTable extends Migration
   {
     Schema::create('calon_pegawais', function (Blueprint $table) {
       $table->id();
+      $table->string('filter')->default(true); // Default bernilai true
       $table->string('nama');
       $table->string('pendidikan');
       $table->integer('pengalaman'); // Tahun pengalaman kerja
