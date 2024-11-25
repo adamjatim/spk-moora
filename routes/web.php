@@ -18,6 +18,10 @@ use App\Http\Livewire\Penilaian\Edit as PenilaianEdit;
 
 use App\Http\Livewire\Proses\Index as ProsesIndex;
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HasilController;
+use App\Http\Controllers\DataHasilController;
+
 
 // BAGIAN ROUTE YANG TIDAK BUTUH AKSES LOGIN
 Route::get('/', function () {
@@ -34,9 +38,18 @@ Route::middleware([
   // MULAI DARI SINI, ROUTE BUTUH AUTENTIKASI LOGIN
 
   // route halaman dashboard
-  Route::get('/dashboard', function () {
-    return view('dashboard');
-  })->name('dashboard');
+  // Route::get('/dashboard', function () {
+  //   $role = auth()->user()->role;
+
+  //   if ($role === 'admin') {
+  //     return view('dashboard');
+  //   } elseif ($role === 'owner') {
+  //     return view('owner.dashboard');
+  //   }
+
+  //   abort(403, 'Unauthorized access');
+  // })->name('dashboard');
+  Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
   // route data alternatif index
   Route::get('/calon-pegawai', CalonPegawaiIndex::class)->name('calon-pegawai.index');
@@ -59,4 +72,9 @@ Route::middleware([
   Route::get('/penilaian', PenilaianIndex::class)->name('penilaian.index');
   Route::get('/penilaian/{altId}/edit', PenilaianEdit::class)->name('penilaian.edit');
   Route::get('/penilaian/proses', ProsesIndex::class)->name('penilaian.proses');
+
+  Route::post('/data-hasil', [HasilController::class, 'store'])->name('data-hasil.store');
+  Route::post('/reset-data-hasil', [DataHasilController::class, 'resetAndInsert']);
+
+
 });
