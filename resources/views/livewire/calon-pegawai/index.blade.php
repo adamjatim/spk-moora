@@ -5,7 +5,14 @@
         <div class="py-8">
             <div class="flex items-center justify-between">
                 <h2 class="text-2xl font-semibold leading-tight">Data Calon Pegawai</h2>
-                <x-button-link href="{{ route('calon-pegawai.create') }}">Tambah Calon Pegawai</x-button-link>
+                <div class="flex items-center justify-between my-auto gap-2">
+                    <x-button-link href="{{ route('calon-pegawai.create') }}">Tambah Calon Pegawai</x-button-link>
+                    <button wire:click="applyFilter"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-semibold text-xs py-2 px-4 rounded-md uppercase tracking-widest">
+                        Terapkan Filter
+                    </button>
+                </div>
+
             </div>
 
             <!-- Pesan Sukses -->
@@ -20,6 +27,10 @@
                     <table class="min-w-full leading-normal">
                         <thead>
                             <tr>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    Filter
+                                </th>
                                 <th
                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                     No
@@ -56,6 +67,11 @@
                         <tbody>
                             @forelse ($calonPegawais as $pegawai => $alt)
                                 <tr>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
+                                        <input type="checkbox" class="form-checkbox text-gray-600"
+                                            wire:click="toggleFilter({{ $alt->id }})"
+                                            {{ $alt->filter === 'true' ? 'checked' : '' }}>
+                                    </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
                                         {{ $pegawai + 1 }}
                                     </td>
