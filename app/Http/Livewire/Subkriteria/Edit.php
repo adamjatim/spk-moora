@@ -28,7 +28,7 @@ class Edit extends Component
 
     // Pastikan ini adalah array sebelum menggunakan implode
     $this->nilai = $subKriteria->nilai; // Ini harus sudah dalam format string
-    $this->parameter_values = is_array($subKriteria->parameter_values) ? implode(', ', $subKriteria->parameter_values) : $subKriteria->parameter_values;
+    $this->parameter_values = $subKriteria->parameter;
   }
 
   public function update()
