@@ -60,7 +60,7 @@
                 <div class="col-span-6 sm:col-span-4">
                     <x-jet-label for="parameter_values" value="Parameter (Pisahkan dengan koma)" />
                     <x-jet-input id="parameter_values" wire:model="parameter_values" type="text"
-                        class="mt-1 block w-full" placeholder="Contoh: sma, smk, d3, s1" />
+                        class="mt-1 block w-full" placeholder="Contoh: SMA, SMK, D3, S1" />
                     <x-jet-input-error for="parameter_values" class="mt-2" />
                 </div>
             @elseif ($parameter_type === 'nominal')
