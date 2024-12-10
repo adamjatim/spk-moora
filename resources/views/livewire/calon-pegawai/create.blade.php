@@ -21,7 +21,7 @@
             {{-- Input nama alternatif --}}
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="nama" value="Nama Calon" />
-                <x-jet-input id="nama" wire:model="nama" type="text" class="mt-1 block w-full" />
+                <x-jet-input id="nama" wire:model="nama" type="text" class="mt-1 block w-full" placeholder="nama calon pegawai"/>
                 <x-jet-input-error for="nama" class="mt-2" />
             </div>
 
@@ -30,7 +30,7 @@
                 <x-jet-label for="pendidikan" value="Pendidikan" />
                 <select id="pendidikan" wire:model="pendidikan"
                     class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                    <option value="" disabled selected>Pilih Pendidikan</option>
+                    <option class="text-gray-400" value="" >Pilih Pendidikan</option>
                     <option value="SMA">SMA</option>
                     <option value="SMK">SMK</option>
                     <option value="D3">D3</option>
@@ -42,14 +42,14 @@
             {{-- Input pengalaman --}}
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="pengalaman" value="Pengalaman (Tahun)" />
-                <x-jet-input id="pengalaman" wire:model="pengalaman" type="number" class="mt-1 block w-full" />
+                <x-jet-input id="pengalaman" wire:model="pengalaman" type="number" class="mt-1 block w-full" placeholder="pengalamn kerja"/>
                 <x-jet-input-error for="pengalaman" class="mt-2" />
             </div>
 
             {{-- Input usia --}}
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="usia" value="Usia" />
-                <x-jet-input id="usia" wire:model="usia" type="number" class="mt-1 block w-full" />
+                <x-jet-input id="usia" wire:model="usia" type="number" class="mt-1 block w-full" placeholder="usia" />
                 <x-jet-input-error for="usia" class="mt-2" />
             </div>
 
@@ -73,7 +73,7 @@
 
                 <select id="kesehatan" wire:model="kesehatan"
                     class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                    <option value="" disabled selected>Pilih Kesehatan</option>
+                    <option class="text-gray-400" value="" >Pilih Kesehatan</option>
                     <option value="1"><=1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -86,10 +86,16 @@
             {{-- Input nilai test --}}
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="nilai_test" value="Nilai Test" />
-                <x-jet-input id="nilai_test" wire:model="nilai_test" type="number" class="mt-1 block w-full" />
+                <x-jet-input id="nilai_test" wire:model="nilai_test" type="number" class="mt-1 block w-full" placeholder="nilai hasil test"/>
                 <x-jet-input-error for="nilai_test" class="mt-2" />
             </div>
-            {{-- input lainnya dst --}}
+
+            {{-- Input nilai tahun daftar --}}
+            <div class="col-span-6 sm:col-span-4">
+              <x-jet-label for="tahun_daftar" value="Tahun Daftar (opsional)" />
+              <x-jet-input id="tahun_daftar" wire:model="tahun_daftar" type="number" class="mt-1 block w-full" placeholder="kosongkan jika data baru" />
+              <x-jet-input-error for="tahun_daftar" class="mt-2" />
+          </div>
 
         </x-slot>
 
