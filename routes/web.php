@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\CalonPegawai\Index as CalonPegawaiIndex;
 use App\Http\Livewire\CalonPegawai\Create as CalonPegawaiCreate;
+use App\Http\Livewire\CalonPegawai\Import as CalonPegawaiImport;
 use App\Http\Livewire\CalonPegawai\Edit as CalonPegawaiEdit;
 
 use App\Http\Livewire\Kriteria\Index as KriteriaIndex;
@@ -23,6 +24,9 @@ use App\Http\Controllers\HasilController;
 use App\Http\Controllers\DataHasilController;
 use App\Http\Controllers\Kejutan;
 
+use App\Http\Controllers\PDFController;
+
+Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('generatePDF');
 
 
 // BAGIAN ROUTE YANG TIDAK BUTUH AKSES LOGIN
@@ -54,11 +58,15 @@ Route::middleware([
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
   // route data alternatif index
-  Route::get('/calon-pegawai', CalonPegawaiIndex::class)->name('calon-pegawai.index');
+  // Route::get('/calon-pegawai', CalonPegawaiIndex::class)->name('calon-pegawai.index');
   // route data alternatif create
   Route::get('/calon-pegawai/create', CalonPegawaiCreate::class)->name('calon-pegawai.create');
+  // route data alternatif import
+  Route::post('/calon-pegawai/import', [CalonPegawaiImport::class, 'import'])->name('calon-pegawai.import');
   // route data alternatif edit
   Route::get('/calon-pegawai/{id}/edit', CalonPegawaiEdit::class)->name('calon-pegawai.edit');
+  // route data alternatif index
+  Route::get('/calon-pegawai/{tahun_filter?}', CalonPegawaiIndex::class)->name('calon-pegawai.index');
 
   // route data kriteria
   Route::get('/kriteria', KriteriaIndex::class)->name('kriteria.index');
