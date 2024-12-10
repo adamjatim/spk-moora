@@ -8,7 +8,7 @@ use Livewire\Component;
 class Edit extends Component
 {
   public $calonPegawai;
-  public $nama, $pendidikan, $pengalaman, $usia, $kesehatan, $nilai_test;
+  public $nama, $pendidikan, $pengalaman, $usia, $kesehatan, $nilai_test, $tahun_daftar, $tahunDaftarFinal;
 
 
   // Memuat data calon pegawai ke dalam form ketika komponen di-mount
@@ -23,6 +23,7 @@ class Edit extends Component
     $this->usia = $this->calonPegawai->usia;
     $this->kesehatan = $this->calonPegawai->kesehatan;
     $this->nilai_test = $this->calonPegawai->nilai_test;
+    $this->tahun_daftar = $this->calonPegawai->tahun_daftar;
   }
 
   // Validasi data yang diinput
@@ -54,6 +55,9 @@ class Edit extends Component
     // Validasi input
     $this->validate();
 
+    // Jika tahun_daftar kosong, gunakan tahun sekarang
+    $tahunDaftarFinal = $this->tahun_daftar ?: now()->year;
+
     // Memperbarui data di database
     $this->calonPegawai->update([
       'nama' => $this->nama,
@@ -62,6 +66,7 @@ class Edit extends Component
       'usia' => $this->usia,
       'kesehatan' => $this->kesehatan,
       'nilai_test' => $this->nilai_test,
+      'tahun_daftar' => $tahunDaftarFinal,
     ]);
 
     // Mengirimkan pesan sukses

@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class Create extends Component
 {
-  public $nama, $pendidikan, $pengalaman, $usia, $kesehatan, $nilai_test;
+  public $nama, $pendidikan, $pengalaman, $usia, $kesehatan, $nilai_test, $tahun_daftar, $tahunDaftarFinal;
 
   // Aturan validasi untuk form
   protected $rules = [
@@ -36,6 +36,9 @@ class Create extends Component
   {
     $this->validate();
 
+    // Jika tahun_daftar kosong, gunakan tahun sekarang
+    $tahunDaftarFinal = $this->tahun_daftar ?: now()->year;
+
     CalonPegawai::create([
       'nama'        => $this->nama,
       'pendidikan'  => $this->pendidikan,
@@ -43,6 +46,7 @@ class Create extends Component
       'usia'        => $this->usia,
       'kesehatan'   => $this->kesehatan,
       'nilai_test'  => $this->nilai_test,
+      'tahun_daftar' => $tahunDaftarFinal,
     ]);
 
     session()->flash('message', 'Data calon pegawai berhasil ditambahkan.');

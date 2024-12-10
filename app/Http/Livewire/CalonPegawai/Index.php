@@ -9,14 +9,40 @@ class Index extends Component
 {
   public $calonPegawais; // Data calon pegawai
   public $selectedPegawai = []; // Menyimpan ID pegawai yang dipilih
+  public $tahun_filter; // Properti untuk filter tahun
+  public $tahun_tersedia = []; // Daftar tahun yang tersedia
+  public $confirmingDelete = false;
+  public $dataToDelete = [];
+  public $importingExcel = false;
 
-  public function mount()
+  public function mount($tahun_filter = null)
   {
     // Ambil data dari database saat pertama kali komponen dimuat
-    $this->calonPegawais = CalonPegawai::all();
+    // $this->calonPegawais = CalonPegawai::all();
+
+    $this->tahun_filter = $tahun_filter; // Ambil filter dari URL jika ada
+
+    // Ambil semua data calon pegawai
+    $this->calonPegawais = CalonPegawai::when($tahun_filter, function ($query) {
+      $query->where('tahun_daftar', $this->tahun_filter);
+    })->get();
+
+    // Ambil daftar tahun unik
+    $this->tahun_tersedia = CalonPegawai::select('tahun_daftar')
+      ->distinct()
+      ->orderBy('tahun_daftar', 'asc')
+      ->pluck('tahun_daftar')
+      ->toArray();
   }
 
-  public function toggleFilter($id)
+  public function filterByYear($tahun)
+  {
+    $this->tahun_filter = $tahun;
+    // Redirect ke rute dengan parameter tahun_filter
+    return redirect()->route('calon-pegawai.index', ['tahun_filter' => $tahun]);
+  }
+
+  public function toggleFilter($id, $tahun)
   {
     $pegawai = CalonPegawai::find($id);
 
@@ -28,6 +54,12 @@ class Index extends Component
 
     // Refresh data
     $this->calonPegawais = CalonPegawai::all();
+
+    if (!$tahun) {
+      return;
+    }
+    // Redirect ke rute dengan parameter tahun_filter
+    return redirect()->route('calon-pegawai.index', ['tahun_filter' => $tahun]);
   }
 
   public function render()
@@ -38,19 +70,33 @@ class Index extends Component
   }
 
   // Fungsi untuk menghapus calon pegawai
-  public function delete($id)
+  public function confirmDelete($id)
   {
-    $calonPegawai = CalonPegawai::find($id);
-    $calonPegawai->delete();
+    $this->dataToDelete = CalonPegawai::find($id)->toArray();
+    $this->confirmingDelete = true;
+  }
 
-    session()->flash('message', 'Data calon pegawai berhasil dihapus.');
+  // Fungsi untuk menghapus calon pegawai
+  public function deleteData($id)
+  {
+    CalonPegawai::findOrFail($id)->delete();
+    session()->flash('message', 'Data berhasil dihapus.');
+    $this->confirmingDelete = false;
+    return redirect()->route('calon-pegawai.index');
+  }
+
+  // Fungsi untuk modal Import Excel
+  public function importExcel()
+  {
+    $this->importingExcel = true;
   }
 
   // Fungsi untuk menerapkan filter
   public function applyFilter()
   {
     if (empty($this->selectedPegawai)) {
-      session()->flash('message', 'Filter berhasil diterapkan.');
+      session()->flash('message', 'Data telah di filter.');
+      session()->flash('filterSuccess', 'Pergi ke Penilaian');
       return;
     }
 
@@ -60,6 +106,7 @@ class Index extends Component
     // Refresh data calon pegawai
     $this->calonPegawais = CalonPegawai::all();
 
-    session()->flash('message', 'Filter berhasil diterapkan.');
+    session()->flash('message', 'Data telah di filter.');
+    session()->flash('filterSuccess', 'Pergi ke Penilaian');
   }
 }
