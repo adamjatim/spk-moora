@@ -21,6 +21,7 @@ class CalonPegawai extends Model
     'usia',
     'kesehatan',
     'nilai_test',
+    'tahun_daftar'
   ];
 
   /**
