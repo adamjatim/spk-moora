@@ -42,14 +42,14 @@
                         <div @mouseenter="open = true" @mouseleave="open = false" class="relative flex">
                             <x-jet-nav-link
                             {{-- href="{{ route('kriteria.index') }}" --}}
-                            :active="request()->routeIs('kriteria.*') || request()->routeIs('subkriteria.*')" class="h-full">
+                            :active="request()->routeIs('kriteria.*') || request()->routeIs('subkriteria.*')" class="h-full cursor-default">
                                 {{ __('Data Kriteria') }}
                                 <svg class="ml-[0.5rem]" xmlns="http://www.w3.org/2000/svg" width="0.8rem" height="0.8rem" viewBox="0 0 1024 1024"><path fill="currentColor" d="M8.2 275.4c0-8.6 3.4-17.401 10-24.001c13.2-13.2 34.8-13.2 48 0l451.8 451.8l445.2-445.2c13.2-13.2 34.8-13.2 48 0s13.2 34.8 0 48L542 775.399c-13.2 13.2-34.8 13.2-48 0l-475.8-475.8c-6.8-6.8-10-15.4-10-24.199"/></svg>
                             </x-jet-nav-link>
 
                             <!-- Dropdown Menu untuk Kriteria -->
                             <div x-show="open" x-transition
-                                class="absolute z-10 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none mt-[3.5rem]"
+                                class="absolute z-10 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none mt-[4.2rem]"
                                 style="display: none;">
                                 <div class="py-1" role="menu" aria-orientation="vertical"
                                     aria-labelledby="options-menu">
