@@ -15,8 +15,10 @@
                             Import Excel
                         </button>
                     </form> --}}
-                    <button wire:click="importExcel"
-                        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Import Excel</button>
+                    <div>
+                        <button wire:click="importExcel"
+                            class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Import Excel</button>
+                    </div>
                 </div>
             </div>
 
@@ -125,66 +127,76 @@
             @endif
 
             <!-- Modal Konfirmasi Penghapusan -->
-            <x-jet-modal wire:model="confirmingDelete">
-                <div class="px-6 py-4">
-                    <h2 class="text-lg font-semibold text-gray-900">Konfirmasi Penghapusan</h2>
-                    <p class="mt-2 text-sm text-gray-600">Apakah Anda yakin ingin menghapus data ini? Tindakan ini
-                        tidak dapat dibatalkan.</p>
-                    <p class="mt-2 text-sm text-gray-600">Nama: <strong>{{ $dataToDelete['nama'] ?? '' }}</strong>
-                    </p>
-                </div>
-
-                <div class="flex justify-end px-6 py-3 bg-gray-50">
-                    <button wire:click="deleteData({{ $dataToDelete['id'] ?? '' }})"
-                        class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-500">
-                        Hapus
-                    </button>
-                    <button wire:click="$set('confirmingDelete', false)"
-                        class="ml-2 bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300">
-                        Batal
-                    </button>
-                </div>
-            </x-jet-modal>
-
-            <!-- Modal Import data Excel -->
-            <x-jet-modal wire:model="importingExcel">
-                <div class="px-6 py-4">
-                    <h2 class="text-lg font-semibold text-gray-900">Import Data Excel</h2>
-                    <p class="mt-2 text-sm text-gray-600">*Pastikan data excel memiliki kolom seperti : </p>
-                    <div class="flex flex-row rounded-md border ">
-                        <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">nama</p>
-                        <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">pendidikan</p>
-                        <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">pengalaman</p>
-                        <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">usia</p>
-                        <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">kesehatan</p>
-                        <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">hasil_test</p>
-                        <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">tahun_daftar</p>
-                    </div>
-                </div>
-                <form action="{{ route('calon-pegawai.import') }}" method="POST" enctype="multipart/form-data"
-                    class="flex flex-col">
-                    @csrf
-                    {{-- <input type="file" name="file" accept=".xlsx, .xls" class="border p-2 rounded-lg mx-6 mb-3 active:border-gray-500"> --}}
-
-                    <div class="px-6 pb-3">
-                        <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
-                            for="file_input">Upload file</label>
-                        <input
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                            aria-describedby="file_input_help" id="file_input" type="file" name="file"
-                            accept=".xlsx, .xls">
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">Format file harus
-                            : <strong>.xlsx</strong>, <strong>.xls</strong></p>
+            <div>
+                <x-jet-modal wire:model="confirmingDelete">
+                    <div class="px-6 py-4">
+                        <h2 class="text-lg font-semibold text-gray-900">Konfirmasi Penghapusan</h2>
+                        <p class="mt-2 text-sm text-gray-600">Apakah Anda yakin ingin menghapus data ini? Tindakan ini
+                            tidak dapat dibatalkan.</p>
+                        <p class="mt-2 text-sm text-gray-600">Nama: <strong>{{ $dataToDelete['nama'] ?? '' }}</strong>
+                        </p>
                     </div>
 
                     <div class="flex justify-end px-6 py-3 bg-gray-50">
-                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-                            Import Excel
+                        <button wire:click="deleteData({{ $dataToDelete['id'] ?? '' }})"
+                            class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-500">
+                            Hapus
                         </button>
-
+                        <button {{-- wire:click="$set('confirmingDelete', false)" --}} wire:click="redirectIndex"
+                            class="ml-2 bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300">
+                            Batal
+                        </button>
                     </div>
-                </form>
-            </x-jet-modal>
+                </x-jet-modal>
+            </div>
+
+            <!-- Modal Import data Excel -->
+            <div>
+                <x-jet-modal wire:model="importingExcel">
+                    <div class="px-6 py-4">
+                        <h2 class="text-lg font-semibold text-gray-900">Import Data Excel</h2>
+                        <p class="mt-2 text-sm text-gray-600">*Pastikan data excel memiliki kolom seperti : </p>
+                        <div class="flex flex-row rounded-md border ">
+                            <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">nama</p>
+                            <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">pendidikan</p>
+                            <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">pengalaman</p>
+                            <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">usia</p>
+                            <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">kesehatan</p>
+                            <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">hasil_test</p>
+                            <p class="py-2 px-3 border w-auto grow text-sm text-gray-600">tahun_daftar</p>
+                        </div>
+                    </div>
+                    <form action="{{ route('calon-pegawai.import') }}" method="POST" enctype="multipart/form-data"
+                        class="flex flex-col">
+                        @csrf
+                        {{-- <input type="file" name="file" accept=".xlsx, .xls" class="border p-2 rounded-lg mx-6 mb-3 active:border-gray-500"> --}}
+
+                        <div class="px-6 pb-3">
+                            <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
+                                for="file_input">Upload file</label>
+                            <input
+                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 p-2"
+                                aria-describedby="file_input_help" id="file_input" type="file" name="file"
+                                accept=".xlsx, .xls">
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">Format file
+                                harus
+                                : <strong>.xlsx</strong>, <strong>.xls</strong></p>
+                        </div>
+
+                        <div class="flex justify-end px-6 py-3 bg-gray-50">
+                            <button type="submit"
+                                class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                Import Excel
+                            </button>
+                            <button {{-- wire:click="$set('confirmingDelete', false)" --}} wire:click="redirectIndex"
+                                class="ml-2 bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300">
+                                Batal
+                            </button>
+
+                        </div>
+                    </form>
+                </x-jet-modal>
+            </div>
 
 
             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -281,7 +293,7 @@
                             @empty
 
                                 <tr>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm" colspan="8">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm" colspan="10">
                                         Data calon pegawai masih kosong.
                                     </td>
                                 </tr>
@@ -294,26 +306,15 @@
     </div>
 </div>
 
-@livewireStyles
-<style>
-#calonPegawaiTable_length,
-#calonPegawaiTable_filter {
-  display: none;
-}
-#calonPegawaiTable_info {
-  margin-left: 1rem;
-}
-</style>
-
-@livewireScripts
 <script>
-  $(document).ready(function() {
-      $('#calonPegawaiTable').DataTable({
-          pageLength: 50, // Atur jumlah data per halaman
-          responsive: true, // Membuat table responsif
-          order: [
-              [1, 'asc'] // Urutkan berdasarkan kolom usia terkecil
-          ],
-      });
-  });
+    $(document).ready(function() {
+
+        $('#calonPegawaiTable').DataTable({
+            pageLength: 50, // Atur jumlah data per halaman
+            responsive: true, // Membuat table responsif
+            order: [
+                [1, 'asc'] // Urutkan berdasarkan kolom usia terkecil
+            ],
+        });
+    });
 </script>

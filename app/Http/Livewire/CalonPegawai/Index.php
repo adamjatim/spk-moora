@@ -15,6 +15,11 @@ class Index extends Component
   public $dataToDelete = [];
   public $importingExcel = false;
 
+  public function redirectIndex()
+  {
+    return redirect()->route('calon-pegawai.index');
+  }
+
   public function mount($tahun_filter = null)
   {
     // Ambil data dari database saat pertama kali komponen dimuat
@@ -89,6 +94,7 @@ class Index extends Component
   public function importExcel()
   {
     $this->importingExcel = true;
+    // return redirect()->route('calon-pegawai.index');
   }
 
   // Fungsi untuk menerapkan filter
@@ -97,7 +103,7 @@ class Index extends Component
     if (empty($this->selectedPegawai)) {
       session()->flash('message', 'Data telah di filter.');
       session()->flash('filterSuccess', 'Pergi ke Penilaian');
-      return;
+      return redirect()->route('calon-pegawai.index');
     }
 
     // Update kolom filter untuk ID yang dipilih
@@ -108,5 +114,6 @@ class Index extends Component
 
     session()->flash('message', 'Data telah di filter.');
     session()->flash('filterSuccess', 'Pergi ke Penilaian');
+    return redirect()->route('calon-pegawai.index');
   }
 }
