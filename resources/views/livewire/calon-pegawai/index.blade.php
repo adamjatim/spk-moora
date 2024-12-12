@@ -246,7 +246,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($calonPegawais as $pegawai => $alt)
+                            @foreach ($calonPegawais as $pegawai => $alt)
                                 <tr>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
                                         <input type="checkbox" class="form-checkbox text--gray-600"
@@ -289,15 +289,7 @@
                                         </div>
                                     </td>
                                 </tr>
-
-                            @empty
-
-                                <tr>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm" colspan="10">
-                                        Data calon pegawai masih kosong.
-                                    </td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -306,12 +298,22 @@
     </div>
 </div>
 
+{{-- <tr>
+  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm" colspan="10">
+      Data calon pegawai masih kosong.
+  </td>
+</tr> --}}
+
 <script>
     $(document).ready(function() {
 
         $('#calonPegawaiTable').DataTable({
             pageLength: 50, // Atur jumlah data per halaman
-            responsive: true, // Membuat table responsif
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json" // Bahasa Indonesia
+            },
+            responsive: true,
+            autoWidth: false,
             order: [
                 [1, 'asc'] // Urutkan berdasarkan kolom usia terkecil
             ],
