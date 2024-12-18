@@ -14,6 +14,62 @@ class Index extends Component
   public $confirmingDelete = false;
   public $dataToDelete = [];
   public $importingExcel = false;
+  public $allSelected = false;
+
+  // public function toggleSelectAll($tahun)
+  // {
+  //   // Ambil semua data
+  //   $query = CalonPegawai::all();
+
+  //   // Jika tahun tidak null, filter data berdasarkan tahun_daftar
+  //   if ($tahun !== 'null') {
+  //     $query = CalonPegawai::where('tahun_daftar', $tahun)->get();
+  //   }
+
+  //   // Cek apakah semua data yang diambil sudah terseleksi (filter = 1)
+  //   $allSelected = $query->every(fn($pegawai) => $pegawai->filter == "true");
+  //   dd($allSelected);
+
+  //   // Ubah status filter untuk semua data yang sesuai
+  //   $query->each(function ($pegawai) use ($allSelected) {
+  //     $pegawai->filter = $allSelected ? "false" : "true"; // Toggle nilai filter (1 menjadi 0, atau 0 menjadi 1)
+  //     $pegawai->save();
+
+  //   });
+
+  //   // Perbarui properti $allSelected untuk mencerminkan status terbaru
+  //   $this->allSelected = !$allSelected;
+  //   return redirect()->route('calon-pegawai.index', ['tahun_filter' => $tahun]);
+  // }
+
+
+  public function toggleSelectAll($tahun)
+  {
+    $query = CalonPegawai::all(); // Ambil semua data jika tahun bernilai null
+    // dd($query);
+
+    if($tahun !== 0) {
+      $query = CalonPegawai::where('tahun_daftar', $tahun)->get(); // Filter berdasarkan tahun
+    }
+
+    // dd($query);
+
+    // Pastikan semua data memiliki format konsisten pada kolom filter
+    $allSelected = $query->every(fn($pegawai) => $pegawai->filter == "true" || $pegawai->filter == 1);
+
+    // Ubah status filter untuk semua data yang sesuai
+    $query->each(function ($pegawai) use ($allSelected) {
+      $pegawai->filter = $allSelected ? "false" : "true"; // Toggle nilai filter
+      $pegawai->save();
+    });
+
+    // Perbarui properti $allSelected untuk mencerminkan status terbaru
+    $this->allSelected = !$allSelected;
+
+    // Redirect ke route calon-pegawai.index dengan filter tahun yang sama
+    return redirect()->route('calon-pegawai.index', ['tahun_filter' => $tahun]);
+  }
+
 
   public function redirectIndex()
   {

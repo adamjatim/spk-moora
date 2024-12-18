@@ -6,7 +6,13 @@
             <div class="flex items-center justify-between">
                 <h2 class="text-2xl font-semibold leading-tight">Data Calon Pegawai</h2>
                 <div class="flex items-center justify-between my-auto gap-2">
-                    <x-button-link href="{{ route('calon-pegawai.create') }}">Tambah Calon Pegawai</x-button-link>
+                    <x-button-link class="gap-2" href="{{ route('calon-pegawai.create') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z" />
+                        </svg>
+                        <span>Tambah Calon Pegawai</span>
+                    </x-button-link>
                     {{-- <form action="{{ route('calon-pegawai.import') }}" method="POST" enctype="multipart/form-data"
                         class="flex items-center space-x-4">
                         @csrf
@@ -17,20 +23,43 @@
                     </form> --}}
                     <div>
                         <button wire:click="importExcel"
-                            class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Import Excel</button>
+                            class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 36 36">
+                                <path fill="currentColor"
+                                    d="M28 4H14.87L8 10.86V15h2v-1.39h7.61V6H28v24H8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m-12 8h-6v-.32L15.7 6h.3Z"
+                                    class="clr-i-outline clr-i-outline-path-1" />
+                                <path fill="currentColor"
+                                    d="M11.94 26.28a1 1 0 1 0 1.41 1.41L19 22l-5.68-5.68a1 1 0 0 0-1.41 1.41L15.2 21H3a1 1 0 1 0 0 2h12.23Z"
+                                    class="clr-i-outline clr-i-outline-path-2" />
+                                <path fill="none" d="M0 0h36v36H0z" />
+                            </svg>
+                            <span>Import Excel</span>
+                        </button>
                     </div>
                 </div>
             </div>
 
             <div class="flex items-center justify-between my-auto mt-2">
-                <button wire:click="applyFilter"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-semibold text-xs py-2 px-4 rounded-md uppercase tracking-widest flex flex-row gap-2 items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0s.41-1.08 0-1.49zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5S14 7.01 14 9.5S11.99 14 9.5 14" />
-                    </svg>
-                    Pilih Data
-                </button>
+                <div class="flex flex-row gap-2">
+                    <button
+                        wire:click="toggleSelectAll(
+                          @if (!$tahun_filter){{'0'}}@else ($tahun_filter){{ $tahun_filter }}@endif)"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-semibold text-xs py-2 px-4 rounded-md uppercase tracking-widest flex flex-row gap-2 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                            <path fill="currentColor"
+                                d="M9.854 5.854a.5.5 0 0 0-.708-.708L6.5 7.793L5.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0zM2 4.5A2.5 2.5 0 0 1 4.5 2h5A2.5 2.5 0 0 1 12 4.5v5A2.5 2.5 0 0 1 9.5 12h-5A2.5 2.5 0 0 1 2 9.5zM4.5 3A1.5 1.5 0 0 0 3 4.5v5A1.5 1.5 0 0 0 4.5 11h5A1.5 1.5 0 0 0 11 9.5v-5A1.5 1.5 0 0 0 9.5 3zM7 14a2.5 2.5 0 0 1-2-1h4.5A3.5 3.5 0 0 0 13 9.5V4c.607.456 1 1.182 1 2v3.5A4.5 4.5 0 0 1 9.5 14z" />
+                        </svg>
+                        Pilih semua data
+                    </button>
+                    <button wire:click="applyFilter"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-semibold text-xs py-2 px-4 rounded-md uppercase tracking-widest flex flex-row gap-2 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0s.41-1.08 0-1.49zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5S14 7.01 14 9.5S11.99 14 9.5 14" />
+                        </svg>
+                        Pilih Data
+                    </button>
+                </div>
                 <div class="flex gap-4 items-center">
                     <label for="tahun_filter">Pilih Tahun</label>
                     <select id="tahun_filter" wire:change="filterByYear($event.target.value)"
