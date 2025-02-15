@@ -47,9 +47,9 @@ class Create extends Component
           'kode_kriteria' => $this->kode_kriteria,
           'tipe_penilaian' => $this->parameter_type, // Masukkan nilai parameter_type ke tipe_penilaian
           'parameter' => trim($param),
-          'parameter_nominal' => null,
-          'parameter_min' => null,
-          'parameter_max' => null,
+          'parameter_nominal' => 0,
+          'parameter_min' => 0,
+          'parameter_max' => 0,
           'nilai' => $nilaiArray[$index] ?? null, // Menggunakan nilai yang sesuai
         ]);
       }
@@ -63,10 +63,10 @@ class Create extends Component
         SubKriteria::create([
           'kode_kriteria' => $this->kode_kriteria,
           'tipe_penilaian' => $this->parameter_type, // Masukkan nilai parameter_type ke tipe_penilaian
-          'parameter' => null,
+          'parameter' => 0,
           'parameter_nominal' => trim($param),
-          'parameter_min' => null,
-          'parameter_max' => null,
+          'parameter_min' => 0,
+          'parameter_max' => 0,
           'nilai' => $nilaiArray[$index] ?? null, // Menggunakan nilai yang sesuai
         ]);
       }
@@ -81,8 +81,8 @@ class Create extends Component
         SubKriteria::create([
           'kode_kriteria' => $this->kode_kriteria,
           'tipe_penilaian' => $this->parameter_type, // Masukkan nilai parameter_type ke tipe_penilaian
-          'parameter' => null,
-          'parameter_nominal' => null,
+          'parameter' => 0,
+          'parameter_nominal' => 0,
           'parameter_min' => $paramMin,
           'parameter_max' => $parameterMaxArray[$index] ?? $paramMin + 1, // Menggunakan parameter_max jika ada, jika tidak, default
           'nilai' => $nilaiArray[$index] ?? null, // Menggunakan nilai yang sesuai

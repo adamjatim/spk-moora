@@ -48,7 +48,7 @@ class Index extends Component
     $query = CalonPegawai::all(); // Ambil semua data jika tahun bernilai null
     // dd($query);
 
-    if($tahun !== 0) {
+    if ($tahun !== 0) {
       $query = CalonPegawai::where('tahun_daftar', $tahun)->get(); // Filter berdasarkan tahun
     }
 
@@ -156,6 +156,18 @@ class Index extends Component
   // Fungsi untuk menerapkan filter
   public function applyFilter()
   {
+    // Cek apakah jumlah kandidat yang terseleksi kurang dari 10
+    // if (count($this->selectedPegawai) < 10) {
+    //   session()->flash('error', 'Terjadi kesalahan, data yang dipilih minimal 10 Alternatif. Alternatif terpilih saat ini : ' . count($this->selectedPegawai));
+    //   return;
+    // }
+    $selected = CalonPegawai::where('filter', 'true')->count();
+
+    if ($selected < 10) {
+        session()->flash('error', 'Terjadi kesalahan, data yang dipilih minimal 10 Alternatif. Alternatif terpilih saat ini : ' . $selected);
+        return redirect()->route('calon-pegawai.index');
+    }
+
     if (empty($this->selectedPegawai)) {
       session()->flash('message', 'Data telah di filter.');
       session()->flash('filterSuccess', 'Pergi ke Penilaian');

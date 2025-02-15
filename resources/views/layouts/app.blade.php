@@ -20,11 +20,14 @@
     <link rel="stylesheet" href="/jquery.dataTables.min.css">
     <script src="/jquery-3.6.0.min.js"></script>
     <script src="/jquery.dataTables.min.js"></script>
+    <link href="/DataTables/datatables.min.css" rel="stylesheet">
+    <script src="/DataTables/datatables.min.js"></script>
 
     <!-- Styles -->
     <style>
         #calonPegawaiTable_length,
-        #calonPegawaiTable_filter {
+        #calonPegawaiTable_filter,
+        #calonPegawaiTable_wrapper > div:nth-child(1) {
             display: none;
         }
 

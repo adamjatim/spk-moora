@@ -43,7 +43,7 @@
                 <div class="flex flex-row gap-2">
                     <button
                         wire:click="toggleSelectAll(
-                          @if (!$tahun_filter){{'0'}}@else ($tahun_filter){{ $tahun_filter }}@endif)"
+                          @if (!$tahun_filter) {{ '0' }}@else ($tahun_filter){{ $tahun_filter }} @endif)"
                         class="bg-blue-500 hover:bg-blue-700 text-white font-semibold text-xs py-2 px-4 rounded-md uppercase tracking-widest flex flex-row gap-2 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                             <path fill="currentColor"
@@ -67,7 +67,8 @@
                         <option value="">Seluruh Tahun</option>
                         @foreach ($tahun_tersedia as $tahun)
                             <option value="{{ $tahun }}" {{ $tahun == $tahun_filter ? 'selected' : '' }}>
-                                {{ $tahun }}</option>
+                                {{ $tahun }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -82,7 +83,8 @@
             @endif
 
             @if (session('error'))
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2"
+                    role="alert">
                     <span class="block sm:inline">{{ session('error') }}</span>
                 </div>
             @endif
@@ -277,13 +279,20 @@
                         <tbody>
                             @foreach ($calonPegawais as $pegawai => $alt)
                                 <tr>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
-                                        <input type="checkbox" class="form-checkbox text--gray-600"
+                                    {{-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
+                                        <input type="checkbox" class="form-checkbox text--gray-600" id="applyFilterButton"
                                             wire:click="toggleFilter({{ $alt->id }},
                                             @if (!$tahun_filter) {{ 'null' }}
                                             @else ($tahun_filter){{ $tahun_filter }} @endif)"
                                             {{ $alt->filter === 'true' ? 'checked' : '' }}>
+                                    </td> --}}
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
+                                        <input type="checkbox" class="form-checkbox text-gray-600 candidate-checkbox"
+                                            wire:click="toggleFilter({{ $alt->id }},
+                                          @if (!$tahun_filter) {{ 'null' }} @else ($tahun_filter){{ $tahun_filter }} @endif)"
+                                            {{ $alt->filter === 'true' ? 'checked' : '' }}>
                                     </td>
+
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
                                         {{ $pegawai + 1 }}
                                     </td>
@@ -348,4 +357,25 @@
             ],
         });
     });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const applyFilterButton = document.querySelector("[wire\\:click='applyFilter']");
+
+      applyFilterButton.addEventListener("click", function (event) {
+          let selectedCount = 0;
+
+          document.querySelectorAll(".candidate-checkbox").forEach((checkbox) => {
+              if (checkbox.checked) {
+                  selectedCount++;
+              }
+          });
+
+          if (selectedCount < 10) {
+              // alert("Terjadi kesalahan, data yang dipilih minimal 10 Alternatif. Alternatif terpilih saat ini : " + selectedCount);
+              event.preventDefault(); // Mencegah eksekusi Livewire jika kurang dari 10
+          }
+      });
+  });
 </script>
