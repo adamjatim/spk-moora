@@ -9,7 +9,7 @@ use Livewire\Component;
 class Create extends Component
 {
   public $kode_kriteria, $nama_kriteria, $parameter_type, $parameter_nominal, $parameter_min, $parameter_max, $parameter_values, $nilai;
-
+  public $showModal = false; // Properti untuk mengontrol modal
   public $kriteriaList = []; // Menyimpan data kriteria untuk dropdown
 
   protected $rules = [

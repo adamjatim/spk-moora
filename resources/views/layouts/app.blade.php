@@ -35,6 +35,7 @@
             margin-left: 1rem;
         }
     </style>
+    @yield('styles')
     @livewireStyles
 </head>
 
@@ -61,6 +62,7 @@
 
     @stack('modals')
 
+    @yield('scripts')
     @livewireScripts
 </body>
 
