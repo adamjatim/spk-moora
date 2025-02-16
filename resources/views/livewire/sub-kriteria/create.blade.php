@@ -42,7 +42,7 @@
                 <x-jet-input-error for="nama_kriteria" class="mt-2" />
             </div>
 
-            <!-- Dropdown Parameter Type -->
+            {{-- <!-- Dropdown Parameter Type -->
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="parameter_type" value="Jenis Parameter" />
                 <select id="parameter_type" wire:model="parameter_type"
@@ -83,7 +83,53 @@
                         placeholder="Opsional" />
                     <x-jet-input-error for="parameter_max" class="mt-2" />
                 </div>
-            @endif
+            @endif --}}
+
+                <!-- Dropdown Parameter Type -->
+            <div class="col-span-6 sm:col-span-4">
+              <x-jet-label for="parameter_type" value="Jenis Parameter" />
+              <select id="parameter_type" wire:model="parameter_type"
+                  class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                  <option value="">Pilih Jenis Parameter</option>
+                  <option value="string">String Tunggal (untuk teks/kategorikal)</option>
+                  <option value="nominal">Nominal Tunggal (untuk angka tunggal)</option>
+                  <option value="range">Nominal Range (untuk rentang angka)</option>
+              </select>
+              <x-jet-input-error for="parameter_type" class="mt-2" />
+          </div>
+
+          <!-- Input Parameter Berdasarkan Pilihan -->
+          @if ($parameter_type === 'string')
+              <div class="col-span-6 sm:col-span-4">
+                  <x-jet-label for="parameter_values" value="Parameter (Pisahkan dengan koma)" />
+                  <x-jet-input id="parameter_values" wire:model="parameter_values" type="text"
+                      class="mt-1 block w-full" placeholder="Contoh: SMA, SMK, D3, S1" />
+                  <x-jet-input-error for="parameter_values" class="mt-2" />
+                  <p class="text-sm text-gray-500 mt-1">Contoh: Masukkan nilai teks/kategorikal seperti "SMA, SMK, D3, S1".</p>
+              </div>
+          @elseif ($parameter_type === 'nominal')
+              <div class="col-span-6 sm:col-span-4">
+                  <x-jet-label for="parameter_nominal" value="Parameter (Pisahkan dengan koma)" />
+                  <x-jet-input id="parameter_nominal" wire:model="parameter_nominal" type="text"
+                      class="mt-1 block w-full" placeholder="Contoh: 1, 2, 3, 4" />
+                  <x-jet-input-error for="parameter_nominal" class="mt-2" />
+                  <p class="text-sm text-gray-500 mt-1">Contoh: Masukkan nilai angka tunggal seperti "1, 2, 3, 4".</p>
+              </div>
+          @elseif($parameter_type === 'range')
+              <div class="col-span-6 sm:col-span-4">
+                  <x-jet-label for="parameter_min" value="Parameter Minimum" />
+                  <x-jet-input id="parameter_min" wire:model="parameter_min" type="text"
+                      class="mt-1 block w-full" placeholder="Contoh: 18" />
+                  <x-jet-input-error for="parameter_min" class="mt-2" />
+              </div>
+              <div class="col-span-6 sm:col-span-4">
+                  <x-jet-label for="parameter_max" value="Parameter Maksimum" />
+                  <x-jet-input id="parameter_max" wire:model="parameter_max" type="text" class="mt-1 block w-full"
+                      placeholder="Contoh: 25" />
+                  <x-jet-input-error for="parameter_max" class="mt-2" />
+                  <p class="text-sm text-gray-500 mt-1">Contoh: Masukkan rentang nilai seperti Minimum "18" dan Maksimum "25".</p>
+              </div>
+          @endif
 
             <!-- Input Nilai -->
             <div class="col-span-6 sm:col-span-4">

@@ -33,7 +33,7 @@
                 <x-jet-input-error for="nama_kriteria" class="mt-2" />
             </div>
             {{-- input nilai bobot --}}
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-4 hidden">
                 <x-jet-label for="nilai_bobot" value="Nilai Bobot (WJ)" />
                 <x-jet-input id="nilai_bobot" wire:model="nilai_bobot" type="number" step="any"
                     class="mt-1 block w-full" />

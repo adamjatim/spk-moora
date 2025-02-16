@@ -23,7 +23,8 @@
             {{-- input kode --}}
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="kode_kriteria" value="Kode Kriteria" />
-                <x-jet-input id="kode_kriteria" wire:model="kode_kriteria" type="text" class="mt-1 block w-full" autofocus />
+                <x-jet-input id="kode_kriteria" wire:model="kode_kriteria" type="text" class="mt-1 block w-full"
+                    autofocus />
                 <x-jet-input-error for="kode_kriteria" class="mt-2" />
             </div>
             {{-- input nama kriteria --}}
@@ -33,11 +34,12 @@
                 <x-jet-input-error for="nama_kriteria" class="mt-2" />
             </div>
             {{-- input nilai bobot --}}
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-4 hidden">
                 <x-jet-label for="nilai_bobot" value="Nilai Bobot (WJ)" />
                 <x-jet-input id="nilai_bobot" wire:model="nilai_bobot" type="number" step="any"
-                    class="mt-1 block w-full" />
+                    class="mt-1 block w-full" value="" readonly/>
                 <x-jet-input-error for="nilai_bobot" class="mt-2" />
+
             </div>
             {{-- input persen --}}
             <div class="col-span-6 sm:col-span-4">

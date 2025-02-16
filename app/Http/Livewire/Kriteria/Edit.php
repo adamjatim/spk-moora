@@ -20,13 +20,34 @@ class Edit extends Component
     $this->keterangan = $this->kriteria->keterangan;
   }
 
+  public function updatedPersentase($value)
+  {
+    // Handle null atau empty value
+    if ($value === null || $value === '') {
+      $value = 0;
+    }
+
+    // Cast ke int
+    $value = (int)$value;
+    $totalPersen = (int)Kriteria::sum('persentase') - $this->kriteria->persentase + $value;
+
+    if ($totalPersen > 100) {
+      $this->addError('persentase', 'Total persentase melebihi 100%.');
+    } else {
+      $this->resetErrorBag('persentase');
+    }
+
+    // Konversi persentase ke nilai bobot
+    $this->nilai_bobot = $value / 100;
+  }
+
   public function update()
   {
     $this->validate([
       'kode_kriteria' => 'required|string',
       'nama_kriteria' => 'required',
       'nilai_bobot' => 'required',
-      'persentase' => 'required|numeric',
+      'persentase' => 'required|numeric|min:0|max:100',
       'keterangan' => 'required',
     ], [
       'kode.required'           => 'Kode kriteria wajib diisi.',
@@ -37,6 +58,15 @@ class Edit extends Component
       'persen.integer'          => 'Persentase harus berupa angka.',
       'keterangan.required'     => 'Keterangan wajib dipilih.',
     ]);
+
+    // Hitung total persentase
+    $totalPersen = (int)Kriteria::sum('persentase') - $this->kriteria->persentase + $this->persentase;
+
+    // Validasi total persentase
+    if ($totalPersen > 100) {
+      session()->flash('error', 'Total persentase melebihi 100%. Silakan kurangi nilai persentase.');
+      return;
+    }
 
     $this->kriteria->update([
       'kode_kriteria' => $this->kode_kriteria,

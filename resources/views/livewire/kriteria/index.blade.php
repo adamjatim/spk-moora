@@ -33,7 +33,7 @@
                                     Nama Kriteria
                                 </th>
                                 <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-900 text-white text-center text-xs font-semibold text-gray-600 uppercase tracking-wider hidden">
                                     Nilai Bobot (WJ)
                                 </th>
                                 <th
@@ -65,7 +65,7 @@
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
                                         {{ $krit->nama_kriteria }}
                                     </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm hidden">
                                         {{ $krit->nilai_bobot }}
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
