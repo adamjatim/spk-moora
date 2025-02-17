@@ -35,8 +35,10 @@
             margin-left: 1rem;
         }
     </style>
-    @yield('styles')
+
     @livewireStyles
+
+    @yield('styles')
 </head>
 
 <body class="font-sans antialiased">
@@ -54,6 +56,8 @@
             </header>
         @endif
 
+        @yield('modals')
+
         <!-- Page Content -->
         <main>
             {{ $slot }}
@@ -62,8 +66,9 @@
 
     @stack('modals')
 
-    @yield('scripts')
     @livewireScripts
+
+    @yield('scripts')
 </body>
 
 </html>

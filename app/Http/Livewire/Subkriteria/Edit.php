@@ -31,27 +31,48 @@ class Edit extends Component
     $this->parameter_values = $subKriteria->parameter;
   }
 
+  // public function update()
+  // {
+  //   $subKriteria = SubKriteria::findOrFail($this->subKriteriaId);
+
+  //   if ($this->parameter_type === 'string') {
+  //     $subKriteria->parameter_values = array_map('trim', explode(',', $this->parameter_values));
+  //   } elseif ($this->parameter_type === 'nominal') {
+  //     $subKriteria->parameter_nominal = $this->parameter_nominal;
+  //   } elseif ($this->parameter_type === 'range') {
+  //     $subKriteria->parameter_min = $this->parameter_min;
+  //     $subKriteria->parameter_max = $this->parameter_max;
+  //   }
+
+  //   // Pastikan nilai adalah array sebelum menyimpannya
+  //   $subKriteria->nilai = implode(',', array_map('trim', explode(',', $this->nilai)));
+  //   $subKriteria->save();
+
+  //   session()->flash('message', 'Sub Kriteria berhasil diperbarui');
+  //   return redirect()->route('subkriteria.index');
+  // }
+
+
   public function update()
-  {
+{
     $subKriteria = SubKriteria::findOrFail($this->subKriteriaId);
 
     if ($this->parameter_type === 'string') {
-      $subKriteria->parameter_values = array_map('trim', explode(',', $this->parameter_values));
+        $subKriteria->parameter = $this->parameter_values;
     } elseif ($this->parameter_type === 'nominal') {
-      $subKriteria->parameter_nominal = $this->parameter_nominal;
+        $subKriteria->parameter_nominal = $this->parameter_nominal;
     } elseif ($this->parameter_type === 'range') {
-      $subKriteria->parameter_min = $this->parameter_min;
-      $subKriteria->parameter_max = $this->parameter_max;
+        $subKriteria->parameter_min = $this->parameter_min;
+        $subKriteria->parameter_max = $this->parameter_max;
     }
 
     // Pastikan nilai adalah array sebelum menyimpannya
-    $subKriteria->nilai = implode(',', array_map('trim', explode(',', $this->nilai)));
+    $subKriteria->nilai = $this->nilai;
     $subKriteria->save();
 
     session()->flash('message', 'Sub Kriteria berhasil diperbarui');
     return redirect()->route('subkriteria.index');
-  }
-
+}
 
   public function render()
   {

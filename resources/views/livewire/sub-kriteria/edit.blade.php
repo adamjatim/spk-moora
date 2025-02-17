@@ -1,3 +1,67 @@
+@section('modals')
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-1/2 lg:w-1/3">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">Penjelasan Jenis Parameter</h3>
+                <button id="closeModalButton" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold">1. String Tunggal</h4>
+                    <p class="text-sm text-gray-600">
+                        Digunakan untuk input parameter yang berupa teks atau string. Parameter ini cocok untuk data yang
+                        bersifat kategorikal atau deskriptif.
+                    </p>
+                    <p class="text-sm text-gray-600 mt-2">
+                        <span class="font-semibold">Contoh Penggunaan:</span> Pendidikan: "SMA", "SMK", "D3", "S1".
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        <span class="font-semibold">Format Input:</span> Masukkan nilai parameter sebagai teks, dipisahkan
+                        dengan koma jika ada lebih dari satu nilai. Contoh: <code>SMA, SMK, D3, S1</code>.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">2. Nominal Tunggal</h4>
+                    <p class="text-sm text-gray-600">
+                        Digunakan untuk input parameter yang berupa angka tunggal. Parameter ini cocok untuk data numerik
+                        yang tidak memerlukan rentang nilai.
+                    </p>
+                    <p class="text-sm text-gray-600 mt-2">
+                        <span class="font-semibold">Contoh Penggunaan:</span> Jumlah Pengalaman Kerja: <code>1, 2, 3,
+                            4</code>.
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        <span class="font-semibold">Format Input:</span> Masukkan nilai parameter sebagai angka, dipisahkan
+                        dengan koma jika ada lebih dari satu nilai. Contoh: <code>1, 2, 3, 4</code>.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">3. Nominal Range</h4>
+                    <p class="text-sm text-gray-600">
+                        Digunakan untuk input parameter yang berupa rentang nilai numerik. Parameter ini cocok untuk data
+                        yang memiliki batasan minimum dan maksimum.
+                    </p>
+                    <p class="text-sm text-gray-600 mt-2">
+                        <span class="font-semibold">Contoh Penggunaan:</span> Rentang Usia: <code>18-25</code>, Rentang
+                        Gaji: <code>3000000-5000000</code>.
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        <span class="font-semibold">Format Input:</span> Masukkan nilai minimum dan maksimum sebagai angka.
+                        Contoh: Minimum <code>18</code>, Maksimum <code>25</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
 <div class="mt-6 mx-6">
     <x-jet-form-section submit="update">
         <x-slot name="title">
@@ -48,9 +112,9 @@
                 <select id="parameter_type" wire:model="parameter_type"
                     class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
                     <option value="">Pilih Jenis Parameter</option>
-                    <option value="string">String Tunggal</option>
-                    <option value="nominal">Nominal Tunggal</option>
-                    <option value="range">Nominal Range</option>
+                    <option value="string">String Tunggal (untuk teks/kategorikal)</option>
+                    <option value="nominal">Nominal Tunggal (untuk angka tunggal)</option>
+                    <option value="range">Nominal Range (untuk rentang angka)</option>
                 </select>
                 <x-jet-input-error for="parameter_type" class="mt-2" />
             </div>
@@ -105,3 +169,29 @@
         </x-slot>
     </x-jet-form-section>
 </div>
+
+@section('scripts')
+    <script>
+        // Ambil elemen modal dan tombol
+        const modal = document.getElementById('modal');
+        const openModalButton = document.getElementById('openModalButton');
+        const closeModalButton = document.getElementById('closeModalButton');
+
+        // Fungsi untuk membuka modal
+        openModalButton.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+
+        // Fungsi untuk menutup modal
+        closeModalButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // Tutup modal saat mengklik di luar area modal
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+    </script>
+@endsection

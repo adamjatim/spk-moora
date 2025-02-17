@@ -342,40 +342,43 @@
   </td>
 </tr> --}}
 
-<script>
-    $(document).ready(function() {
-
-        $('#calonPegawaiTable').DataTable({
-            pageLength: 50, // Atur jumlah data per halaman
-            language: {
-                url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json" // Bahasa Indonesia
-            },
-            responsive: true,
-            autoWidth: false,
-            order: [
-                [1, 'asc'] // Urutkan berdasarkan kolom usia terkecil
-            ],
-        });
-    });
-</script>
+@section('scripts')
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-      const applyFilterButton = document.querySelector("[wire\\:click='applyFilter']");
+  $(document).ready(function() {
 
-      applyFilterButton.addEventListener("click", function (event) {
-          let selectedCount = 0;
-
-          document.querySelectorAll(".candidate-checkbox").forEach((checkbox) => {
-              if (checkbox.checked) {
-                  selectedCount++;
-              }
-          });
-
-          if (selectedCount < 10) {
-              // alert("Terjadi kesalahan, data yang dipilih minimal 10 Alternatif. Alternatif terpilih saat ini : " + selectedCount);
-              event.preventDefault(); // Mencegah eksekusi Livewire jika kurang dari 10
-          }
+      $('#calonPegawaiTable').DataTable({
+          pageLength: 50, // Atur jumlah data per halaman
+          language: {
+              url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/id.json" || "/id.json" // Bahasa Indonesia
+          },
+          responsive: true,
+          autoWidth: false,
+          order: [
+              [1, 'asc'] // Urutkan berdasarkan kolom usia terkecil
+          ],
       });
   });
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const applyFilterButton = document.querySelector("[wire\\:click='applyFilter']");
+
+    applyFilterButton.addEventListener("click", function (event) {
+        let selectedCount = 0;
+
+        document.querySelectorAll(".candidate-checkbox").forEach((checkbox) => {
+            if (checkbox.checked) {
+                selectedCount++;
+            }
+        });
+
+        if (selectedCount < 10) {
+            // alert("Terjadi kesalahan, data yang dipilih minimal 10 Alternatif. Alternatif terpilih saat ini : " + selectedCount);
+            event.preventDefault(); // Mencegah eksekusi Livewire jika kurang dari 10
+        }
+    });
+});
+</script>
+@endsection
