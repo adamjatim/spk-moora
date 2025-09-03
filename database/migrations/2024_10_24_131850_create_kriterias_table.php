@@ -1,11 +1,10 @@
 <?php
 
-// database/migrations/xxxx_xx_xx_create_kriterias_table.php
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKriteriasTable extends Migration
+return new class extends Migration
 {
     public function up()
     {
@@ -13,7 +12,7 @@ class CreateKriteriasTable extends Migration
             $table->id();
             $table->string('kode_kriteria');
             $table->string('nama_kriteria');
-            $table->float('nilai_bobot'); // Bobot kriteria (misalnya 0.2, 0.3, dst.)
+            $table->double('nilai_bobot', 10, 2);
             $table->integer('persentase');
             $table->string('keterangan');
             $table->timestamps();
@@ -24,4 +23,4 @@ class CreateKriteriasTable extends Migration
     {
         Schema::dropIfExists('kriterias');
     }
-}
+};
