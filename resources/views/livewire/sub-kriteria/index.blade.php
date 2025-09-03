@@ -55,7 +55,7 @@
                                         {{ $subKrit->kode_kriteria }}
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
-                                        {{ $subKrit->kriteria->nama_kriteria }}
+                                        {{ $subKrit->kriteria->nama_kriteria ?? " - " }}
                                     </td>
                                     {{-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-center text-sm">
                                         {{ $subKrit->parameter }}
